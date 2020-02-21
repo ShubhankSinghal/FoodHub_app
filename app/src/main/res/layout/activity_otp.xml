@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF6347"
+    android:padding="15dp"
+    android:theme="@style/AppTheme1"
+    tools:context=".activity.ForgotPasswordActivity">
+
+    <TextView
+        android:id="@+id/otpText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:text="@string/enter_the_received_otp_below"
+        android:textColor="#FFF"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/otpOTP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/otpText"
+        android:layout_marginTop="20dp"
+        android:background="#FFF"
+        android:hint="@string/otp_4_characters"
+        android:inputType="phone"
+        android:padding="8dp" />
+
+    <EditText
+        android:id="@+id/otpNewPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/otpOTP"
+        android:layout_marginTop="15dp"
+        android:background="#FFF"
+        android:hint="@string/new_password_min_4_characters"
+        android:inputType="textPassword"
+        android:padding="8dp" />
+
+    <EditText
+        android:id="@+id/otpConfirmNewPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/otpNewPassword"
+        android:layout_marginTop="15dp"
+        android:background="#FFF"
+        android:hint="Confirm Password"
+        android:inputType="textEmailAddress"
+        android:padding="8dp" />
+
+    <Button
+        android:id="@+id/otpButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otpConfirmNewPassword"
+        android:layout_marginTop="25dp"
+        android:background="#FF4000"
+        android:padding="8dp"
+        android:text="@string/next"
+        android:textAlignment="center"
+        android:textColor="#FFF" />
+
+</RelativeLayout>
