@@ -19,4 +19,14 @@
     <string name="otp_4_characters">OTP (4 characters)</string>
     <string name="new_password_min_4_characters">New Password (Min. 4 characters)</string>
     <string name="name_of_the_restaurant">Name of the Restaurant</string>
+    <string name="question1">Q.1 How will the training be delivered?</string>
+    <string name="answer1">A.1 You will be taught using pre-recorded videos and text tutorials. The training has quizzes, assignments, and tests to help you learn better. At the end of the training, you will attempt a project to get hands-on practice of what you learn during your training.</string>
+    <string name="question2">Q.2 What will be the timings of the training?</string>
+    <string name="answer2">A.2 As this is a purely online training program, you can choose to learn at any time of the day. We will recommend a pace to be followed throughout the program, but the actual timings and learning hours can be decided by students according to their convenience.</string>
+    <string name="question3">Q.3 What will be the duration of the training?</string>
+    <string name="answer3">A.3 The training duration is of 4-6 weeks.</string>
+    <string name="question4">Q.4 How much time should I spent everyday?</string>
+    <string name="answer4">A.4 As this is a purely online training program, students can choose to learn at any time of the day. The students can decide the timing according to their convenience.</string>
+    <string name="question5">Q.5 When can I start my training?</string>
+    <string name="answer5">A.5 You can choose your preferred batch date while signing up for the training program.</string>
 </resources>
