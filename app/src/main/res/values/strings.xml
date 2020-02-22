@@ -29,4 +29,11 @@
     <string name="answer4">A.4 As this is a purely online training program, students can choose to learn at any time of the day. The students can decide the timing according to their convenience.</string>
     <string name="question5">Q.5 When can I start my training?</string>
     <string name="answer5">A.5 You can choose your preferred batch date while signing up for the training program.</string>
+    <string name="home">Home</string>
+    <string name="my_profile">My Profile</string>
+    <string name="favorite_restaurants">Favorite Restaurants</string>
+    <string name="order_history">Order History</string>
+    <string name="faqs">FAQs</string>
+    <string name="log_out">Log out</string>
+    <string name="u_don_t_have_an_account_sign_up_now_u"><u>Don\'t have an account? Sign up now</u>></string>
 </resources>

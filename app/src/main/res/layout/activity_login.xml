@@ -65,10 +65,11 @@
         android:textColor="#FFF" />
 
     <TextView
+        android:id="@+id/loginRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Don't have an account? Sign up now"
+        android:text="@string/u_don_t_have_an_account_sign_up_now_u"
         android:textAlignment="center"
         android:textColor="#FFF" />
 

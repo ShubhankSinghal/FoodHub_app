@@ -1,4 +1,11 @@
 package com.shubhank.foodhub_app.database
 
-class FoodDatabase {
+import androidx.room.Database
+import androidx.room.RoomDatabase
+
+
+@Database(entities = [FoodEntity::class], version = 1)
+abstract class FoodDatabase : RoomDatabase() {
+
+    abstract fun FoodDao(): FoodDao
 }
