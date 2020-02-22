@@ -45,7 +45,45 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         registerBtn.setOnClickListener {
-            if (registerPassword != registerConfirmPassword) {
+
+            if (registerName.text.isNullOrEmpty()) {
+                Toast.makeText(this@RegistrationActivity, "Name missing!", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (registerEmail.text.isNullOrEmpty()) {
+                Toast.makeText(this@RegistrationActivity, "Email missing!", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (registerMobileNumber.text.isNullOrEmpty()) {
+                Toast.makeText(
+                    this@RegistrationActivity,
+                    "Mobile Number missing!",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            } else if (registerMobileNumber.text.length != 10) {
+                Toast.makeText(
+                    this@RegistrationActivity,
+                    "Invalid Mobile Number",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            } else if (registerDeliveryAddress.text.isNullOrEmpty()) {
+                Toast.makeText(
+                    this@RegistrationActivity,
+                    "Delivery Address missing!",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            } else if (registerPassword.text.isNullOrEmpty() || registerConfirmPassword.text.isNullOrEmpty()) {
+                Toast.makeText(this@RegistrationActivity, "Password Missing!", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (registerPassword.text.length <= 4) {
+                Toast.makeText(
+                    this@RegistrationActivity,
+                    "Password length >4 required",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            } else if (registerPassword.text.toString() != registerConfirmPassword.text.toString()) {
                 Toast.makeText(this@RegistrationActivity, "Password Mismatched", Toast.LENGTH_SHORT)
                     .show()
             } else {
