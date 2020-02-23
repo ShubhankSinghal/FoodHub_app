@@ -53,56 +53,79 @@ class LoginActivity : AppCompatActivity() {
             val mobileNumber = loginMobileNumber.text.toString()
             val password = loginPassword.text.toString()
 
-            val queue = Volley.newRequestQueue(this@LoginActivity)
-            val url = "http://13.235.250.119/v2/login/fetch_result"
-            val jsonParams = JSONObject()
-            jsonParams.put("mobile_number", mobileNumber)
-            jsonParams.put("password", password)
+            if (mobileNumber.isEmpty() || password.isEmpty()) {
 
-            if (ConnectionManager().checkConnectivity(this@LoginActivity)) {
+                Toast.makeText(this@LoginActivity, "Enter credentials first!", Toast.LENGTH_SHORT)
+                    .show()
 
-                val jsonObjectRequest =
-                    object :
-                        JsonObjectRequest(Request.Method.POST, url, jsonParams, Response.Listener {
+            } else if (mobileNumber.length != 10) {
 
-                            try {
+                Toast.makeText(this@LoginActivity, "Enter valid mobile number!", Toast.LENGTH_SHORT)
+                    .show()
 
-                                val success = it.getBoolean("success")
+            } else {
 
-                                if(success)
-                                {
-                                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                    startActivity(intent)
-                                }
+                val queue = Volley.newRequestQueue(this@LoginActivity)
+                val url = "http://13.235.250.119/v2/login/fetch_result"
+                val jsonParams = JSONObject()
+                jsonParams.put("mobile_number", mobileNumber)
+                jsonParams.put("password", password)
 
-                            } catch (e: JSONException) {
-                                Toast.makeText(
-                                    this@LoginActivity,
-                                    "Some unexpected error occur!!!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                if (ConnectionManager().checkConnectivity(this@LoginActivity)) {
+
+                    val jsonObjectRequest =
+                        object :
+                            JsonObjectRequest(
+                                Request.Method.POST,
+                                url,
+                                jsonParams,
+                                Response.Listener {
+
+                                    try {
+
+                                        val success = it.getBoolean("success")
+
+                                        if (success) {
+                                            val intent =
+                                                Intent(this@LoginActivity, MainActivity::class.java)
+                                            startActivity(intent)
+                                            finishAffinity()
+                                        }
+
+                                    } catch (e: JSONException) {
+
+                                        Toast.makeText(
+                                            this@LoginActivity,
+                                            "Some JSON related error occur!!!",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                    }
+
+                                },
+                                Response.ErrorListener {
+
+                                    Toast.makeText(
+                                        this@LoginActivity,
+                                        "Volley error occurred",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+
+                                }) {
+                            override fun getHeaders(): MutableMap<String, String> {
+                                val headers = HashMap<String, String>()
+                                headers["Content-type"] = "application/json"
+                                headers["token"] = "6f5311403e6661"
+                                return headers
+
                             }
-
-
-                        }, Response.ErrorListener {
-
-                            Toast.makeText(
-                                this@LoginActivity,
-                                "Volley error occurred",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-
-                        }) {
-                        override fun getHeaders(): MutableMap<String, String> {
-                            val headers = HashMap<String, String>()
-                            headers["Content-type"] = "application/json"
-                            return headers
-
                         }
-                    }
 
-                queue.add(jsonObjectRequest)
+                    queue.add(jsonObjectRequest)
+
+                }
+
 
             }
 

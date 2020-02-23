@@ -89,7 +89,7 @@ class RegistrationActivity : AppCompatActivity() {
             } else {
 
                 val queue = Volley.newRequestQueue(this@RegistrationActivity)
-                val url = "http://13.235.250.119/v2/login/fetch_result"
+                val url = "http://13.235.250.119/v2/register/fetch_result"
                 val jsonParams = JSONObject()
                 jsonParams.put("name", registerName)
                 jsonParams.put("mobile_number", registerMobileNumber)
@@ -117,6 +117,7 @@ class RegistrationActivity : AppCompatActivity() {
                                                 MainActivity::class.java
                                             )
                                             startActivity(intent)
+                                            finishAffinity()
                                         }
 
                                     } catch (e: JSONException) {
@@ -142,6 +143,7 @@ class RegistrationActivity : AppCompatActivity() {
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
                                 headers["Content-type"] = "application/json"
+                                headers["token"] = "6f5311403e6661"
                                 return headers
 
                             }
