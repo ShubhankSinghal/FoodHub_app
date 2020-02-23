@@ -47,32 +47,26 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 ).show()
             } else {
 
-                val intent = Intent(
-                    this@ForgotPasswordActivity,
-                    ResetPasswordActivity::class.java
-                )
-                intent.putExtra("mobile_number", forgotPasswordMobileNumber.text.toString())
-                startActivity(intent)
-
                 val queue = Volley.newRequestQueue(this@ForgotPasswordActivity)
                 val url = "http://13.235.250.119/v2/forgot_password/fetch_result"
                 val jsonParams = JSONObject()
-                jsonParams.put("mobile_number", forgotPasswordMobileNumber)
-                jsonParams.put("email", forgotPasswordEmail)
+                jsonParams.put("mobile_number", forgotPasswordMobileNumber.text.toString())
+                jsonParams.put("email", forgotPasswordEmail.text.toString())
 
                 if (ConnectionManager().checkConnectivity(this@ForgotPasswordActivity)) {
 
                     val jsonObjectRequest =
                         object :
                             JsonObjectRequest(
-                                Request.Method.POST,
+                                Method.POST,
                                 url,
                                 jsonParams,
                                 Response.Listener {
 
                                     try {
 
-                                        val success = it.getBoolean("success")
+                                        val data = it.getJSONObject("data")
+                                        val success = data.getBoolean("success")
 
                                         if (success) {
                                             val intent = Intent(
@@ -81,7 +75,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                             )
                                             intent.putExtra("mobile_number", forgotPasswordMobileNumber.text.toString())
                                             startActivity(intent)
-                                            if (it.getBoolean("first_try")) {
+                                            if (data.getBoolean("first_try")) {
                                                 Toast.makeText(
                                                     this@ForgotPasswordActivity,
                                                     "OTP has sent to the registered Email",
@@ -94,10 +88,11 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
+
                                         } else {
                                             Toast.makeText(
                                                 this@ForgotPasswordActivity,
-                                                "Enter Valid Mobile number and Email",
+                                                "No User Exist",
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }

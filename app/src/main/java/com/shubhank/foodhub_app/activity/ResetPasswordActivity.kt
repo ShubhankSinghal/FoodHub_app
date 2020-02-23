@@ -54,6 +54,14 @@ class ResetPasswordActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
+            } else if (otpNewPassword.text.length <= 5) {
+
+                Toast.makeText(
+                    this@ResetPasswordActivity,
+                    "Password Length >5 required",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             } else if (otpNewPassword.text.toString() != otpConfirmNewPassword.text.toString()) {
 
                 Toast.makeText(
@@ -64,33 +72,27 @@ class ResetPasswordActivity : AppCompatActivity() {
 
             } else {
 
-                val intent = Intent(
-                    this@ResetPasswordActivity,
-                    LoginActivity::class.java
-                )
-                startActivity(intent)
-                finishAffinity()
-
                 val queue = Volley.newRequestQueue(this@ResetPasswordActivity)
                 val url = "http://13.235.250.119/v2/reset_password/fetch_result"
                 val jsonParams = JSONObject()
                 jsonParams.put("mobile_number", mobile_number)
-                jsonParams.put("password", otpNewPassword)
-                jsonParams.put("otp", otpOtp)
+                jsonParams.put("password", otpNewPassword.text.toString())
+                jsonParams.put("otp", otpOtp.text.toString())
 
                 if (ConnectionManager().checkConnectivity(this@ResetPasswordActivity)) {
 
                     val jsonObjectRequest =
                         object :
                             JsonObjectRequest(
-                                Request.Method.POST,
+                                Method.POST,
                                 url,
                                 jsonParams,
                                 Response.Listener {
 
                                     try {
 
-                                        val success = it.getBoolean("success")
+                                        val data = it.getJSONObject("data")
+                                        val success = data.getBoolean("success")
 
                                         if (success) {
                                             val intent = Intent(

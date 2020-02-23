@@ -76,10 +76,10 @@ class RegistrationActivity : AppCompatActivity() {
             } else if (registerPassword.text.isNullOrEmpty() || registerConfirmPassword.text.isNullOrEmpty()) {
                 Toast.makeText(this@RegistrationActivity, "Password Missing!", Toast.LENGTH_SHORT)
                     .show()
-            } else if (registerPassword.text.length <= 4) {
+            } else if (registerPassword.text.length <= 5) {
                 Toast.makeText(
                     this@RegistrationActivity,
-                    "Password length >4 required",
+                    "Password length >5 required",
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -88,35 +88,29 @@ class RegistrationActivity : AppCompatActivity() {
                     .show()
             } else {
 
-                val intent = Intent(
-                    this@RegistrationActivity,
-                    MainActivity::class.java
-                )
-                startActivity(intent)
-                finishAffinity()
-
                 val queue = Volley.newRequestQueue(this@RegistrationActivity)
                 val url = "http://13.235.250.119/v2/register/fetch_result"
                 val jsonParams = JSONObject()
-                jsonParams.put("name", registerName)
-                jsonParams.put("mobile_number", registerMobileNumber)
-                jsonParams.put("password", registerPassword)
-                jsonParams.put("address", registerDeliveryAddress)
-                jsonParams.put("email", registerEmail)
+                jsonParams.put("name", registerName.text.toString())
+                jsonParams.put("mobile_number", registerMobileNumber.text.toString())
+                jsonParams.put("password", registerPassword.text.toString())
+                jsonParams.put("address", registerDeliveryAddress.text.toString())
+                jsonParams.put("email", registerEmail.text.toString())
 
                 if (ConnectionManager().checkConnectivity(this@RegistrationActivity)) {
 
                     val jsonObjectRequest =
                         object :
                             JsonObjectRequest(
-                                Request.Method.POST,
+                                Method.POST,
                                 url,
                                 jsonParams,
                                 Response.Listener {
 
                                     try {
 
-                                        val success = it.getBoolean("success")
+                                        val data = it.getJSONObject("data")
+                                        val success = data.getBoolean("success")
 
                                         if (success) {
                                             val intent = Intent(
@@ -125,6 +119,14 @@ class RegistrationActivity : AppCompatActivity() {
                                             )
                                             startActivity(intent)
                                             finishAffinity()
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(
+                                                this@RegistrationActivity,
+                                                "Already Registered with above details",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
 
                                     } catch (e: JSONException) {

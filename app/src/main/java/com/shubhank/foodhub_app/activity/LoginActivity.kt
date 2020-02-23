@@ -65,11 +65,6 @@ class LoginActivity : AppCompatActivity() {
 
             } else {
 
-                val intent =
-                    Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
-                finishAffinity()
-
                 val queue = Volley.newRequestQueue(this@LoginActivity)
                 val url = "http://13.235.250.119/v2/login/fetch_result"
                 val jsonParams = JSONObject()
@@ -81,14 +76,15 @@ class LoginActivity : AppCompatActivity() {
                     val jsonObjectRequest =
                         object :
                             JsonObjectRequest(
-                                Request.Method.POST,
+                                Method.POST,
                                 url,
                                 jsonParams,
                                 Response.Listener {
 
                                     try {
 
-                                        val success = it.getBoolean("success")
+                                        val data = it.getJSONObject("data")
+                                        val success = data.getBoolean("success")
 
                                         if (success) {
                                             val intent =
