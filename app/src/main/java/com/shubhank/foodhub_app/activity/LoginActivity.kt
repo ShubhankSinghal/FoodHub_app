@@ -2,6 +2,7 @@ package com.shubhank.foodhub_app.activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -28,9 +29,13 @@ class LoginActivity : AppCompatActivity() {
     lateinit var loginForgotPassword: TextView
     lateinit var loginRegister: TextView
 
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
 
         loginMobileNumber = findViewById(R.id.loginMobileNumber)
         loginPassword = findViewById(R.id.loginPassword)
@@ -89,6 +94,7 @@ class LoginActivity : AppCompatActivity() {
                                         if (success) {
                                             val intent =
                                                 Intent(this@LoginActivity, MainActivity::class.java)
+                                            sharedPreferences.edit().putBoolean("isLoggedIn", true).apply()
                                             startActivity(intent)
                                             finishAffinity()
                                         }

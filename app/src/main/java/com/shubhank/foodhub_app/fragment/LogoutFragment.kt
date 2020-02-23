@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.Fragment
@@ -18,6 +19,8 @@ import com.shubhank.foodhub_app.activity.MainActivity
 
 class LogoutFragment : Fragment() {
 
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +32,7 @@ class LogoutFragment : Fragment() {
         dialog.setMessage("Are you sure you want to log out?")
         dialog.setPositiveButton("Yes") { text, listener ->
 
+            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
             activity?.finish()
         }
         dialog.setNegativeButton("No") { _, _ ->
