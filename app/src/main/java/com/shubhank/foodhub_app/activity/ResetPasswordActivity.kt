@@ -22,6 +22,8 @@ class ResetPasswordActivity : AppCompatActivity() {
     lateinit var otpConfirmNewPassword: EditText
     lateinit var otpButton: Button
 
+    var mobile_number: String? = "100"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp)
@@ -30,6 +32,17 @@ class ResetPasswordActivity : AppCompatActivity() {
         otpNewPassword = findViewById(R.id.otpNewPassword)
         otpConfirmNewPassword = findViewById(R.id.otpConfirmNewPassword)
         otpButton = findViewById(R.id.otpButton)
+
+        if (intent != null) {
+            mobile_number = intent.getStringExtra("mobile_number")
+        } else {
+            finish()
+            Toast.makeText(
+                this@ResetPasswordActivity,
+                "Some unexpected error occurred!",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
         otpButton.setOnClickListener {
 
@@ -53,6 +66,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                 val queue = Volley.newRequestQueue(this@ResetPasswordActivity)
                 val url = "http://13.235.250.119/v2/reset_password/fetch_result"
                 val jsonParams = JSONObject()
+                jsonParams.put("mobile_number", mobile_number)
                 jsonParams.put("password", otpNewPassword)
                 jsonParams.put("otp", otpOtp)
 
