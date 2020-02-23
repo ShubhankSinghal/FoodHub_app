@@ -88,6 +88,13 @@ class RegistrationActivity : AppCompatActivity() {
                     .show()
             } else {
 
+                val intent = Intent(
+                    this@RegistrationActivity,
+                    MainActivity::class.java
+                )
+                startActivity(intent)
+                finishAffinity()
+
                 val queue = Volley.newRequestQueue(this@RegistrationActivity)
                 val url = "http://13.235.250.119/v2/register/fetch_result"
                 val jsonParams = JSONObject()

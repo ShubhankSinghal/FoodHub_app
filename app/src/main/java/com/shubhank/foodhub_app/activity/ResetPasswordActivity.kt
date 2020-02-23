@@ -54,7 +54,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-            } else if (otpNewPassword.text != otpConfirmNewPassword.text) {
+            } else if (otpNewPassword.text.toString() != otpConfirmNewPassword.text.toString()) {
 
                 Toast.makeText(
                     this@ResetPasswordActivity,
@@ -63,6 +63,14 @@ class ResetPasswordActivity : AppCompatActivity() {
                 ).show()
 
             } else {
+
+                val intent = Intent(
+                    this@ResetPasswordActivity,
+                    LoginActivity::class.java
+                )
+                startActivity(intent)
+                finishAffinity()
+
                 val queue = Volley.newRequestQueue(this@ResetPasswordActivity)
                 val url = "http://13.235.250.119/v2/reset_password/fetch_result"
                 val jsonParams = JSONObject()

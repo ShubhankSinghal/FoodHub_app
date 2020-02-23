@@ -46,6 +46,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
+
+                val intent = Intent(
+                    this@ForgotPasswordActivity,
+                    ResetPasswordActivity::class.java
+                )
+                intent.putExtra("mobile_number", forgotPasswordMobileNumber.text.toString())
+                startActivity(intent)
+
                 val queue = Volley.newRequestQueue(this@ForgotPasswordActivity)
                 val url = "http://13.235.250.119/v2/forgot_password/fetch_result"
                 val jsonParams = JSONObject()
