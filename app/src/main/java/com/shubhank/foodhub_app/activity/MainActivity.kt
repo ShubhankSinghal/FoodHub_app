@@ -1,5 +1,8 @@
 package com.shubhank.foodhub_app.activity
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,7 +19,6 @@ import com.shubhank.foodhub_app.fragment.MyProfileFragment
 import com.shubhank.foodhub_app.fragment.FavoriteRestaurantsFragment
 import com.shubhank.foodhub_app.fragment.OrderHistoryFragment
 import com.shubhank.foodhub_app.fragment.FAQsFragment
-import com.shubhank.foodhub_app.fragment.LogoutFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
     lateinit var frameLayout: FrameLayout
     lateinit var navigationView: NavigationView
+    lateinit var sharedPreferences: SharedPreferences
 
     var previousMenuItem: MenuItem? = null
 
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
         drawerLayout = findViewById(R.id.drawerLayout)
         coordinatorLayout = findViewById(R.id.coordinatorLayout)
         toolbar = findViewById(R.id.toolbar)
@@ -108,14 +112,10 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                 }
                 R.id.logout -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(
-                            R.id.frame,
-                            LogoutFragment()
-                        )
-                        .commit()
-                    supportActionBar?.title = "AboutApp"
-                    drawerLayout.closeDrawers()
+
+                    val intent = Intent(this@MainActivity, LogoutActivity::class.java)
+                    startActivity(intent)
+
                 }
             }
             return@setNavigationItemSelectedListener true

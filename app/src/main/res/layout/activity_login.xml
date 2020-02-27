@@ -39,7 +39,7 @@
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="5dp"
         android:hint="@string/password"
-        android:inputType="textPassword"
+        android:inputType="number"
         android:padding="8dp" />
 
     <Button

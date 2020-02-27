@@ -15,7 +15,7 @@
         android:padding="8dp"
         android:src="@mipmap/ic_launcher" />
 
-    <EditText
+    <TextView
         android:id="@+id/textProfileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:textAlignment="center"
         android:textSize="18sp" />
 
-    <EditText
+    <TextView
         android:id="@+id/textProfileMobileNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:textAlignment="center"
         android:textSize="18sp" />
 
-    <EditText
+    <TextView
         android:id="@+id/textProfileEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         android:textAlignment="center"
         android:textSize="18sp" />
 
-    <EditText
+    <TextView
         android:id="@+id/textProfileLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
