@@ -11,11 +11,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.activity.MainActivity
+import com.shubhank.foodhub_app.activity.OrderActivity
 import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.Restaurant
 import com.squareup.picasso.Picasso
 
-class HomeRecyclerAdapter(val context:Context, val itemList: ArrayList<Restaurant>) :
+class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaurant>) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
 
     class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -46,5 +47,10 @@ class HomeRecyclerAdapter(val context:Context, val itemList: ArrayList<Restauran
         Picasso.get().load(restaurant.restaurantImage)
             .into(holder.imgRestaurantImage)
 
+        holder.llContent.setOnClickListener {
+            val intent = Intent(context, OrderActivity::class.java)
+            intent.putExtra("id", restaurant.restaurantId)
+            context.startActivity(intent)
         }
+    }
 }

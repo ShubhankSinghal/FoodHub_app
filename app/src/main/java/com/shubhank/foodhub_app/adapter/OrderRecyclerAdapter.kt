@@ -4,15 +4,21 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.foodhub_app.R
+import com.shubhank.foodhub_app.model.Food
 
-class OrderRecyclerAdapter(val context:Context, val itemList: ArrayList<String>) :
+class OrderRecyclerAdapter(val context:Context, val itemList: ArrayList<Food>) :
     RecyclerView.Adapter<OrderRecyclerAdapter.OrderViewHolder>() {
 
     class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.txtRestaurantName)
+
+        val textRestaurantName: TextView = view.findViewById(R.id.orderRestaurantOrder)
+        val textRestaurantPrice: TextView = view.findViewById(R.id.orderPrice)
+        val linearLayout : LinearLayout = view.findViewById(R.id.l2Content)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -26,7 +32,9 @@ class OrderRecyclerAdapter(val context:Context, val itemList: ArrayList<String>)
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        val text = itemList[position]
-        holder.textView.text = text
+        val food = itemList[position]
+        holder.textRestaurantName.text = food.orderName
+        holder.textRestaurantPrice.text = food.orderPrice
+
     }
 }
