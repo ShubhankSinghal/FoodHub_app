@@ -14,10 +14,13 @@ import com.shubhank.foodhub_app.model.Food
 class OrderRecyclerAdapter(val context:Context, val itemList: ArrayList<Food>) :
     RecyclerView.Adapter<OrderRecyclerAdapter.OrderViewHolder>() {
 
+    var i : Int  = 1
+
     class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val textRestaurantName: TextView = view.findViewById(R.id.orderRestaurantOrder)
-        val textRestaurantPrice: TextView = view.findViewById(R.id.orderPrice)
+        val textFoodIndex: TextView = view.findViewById(R.id.orderIndex)
+        val textFoodName: TextView = view.findViewById(R.id.orderRestaurantOrder)
+        val textFoodPrice: TextView = view.findViewById(R.id.orderPrice)
         val linearLayout : LinearLayout = view.findViewById(R.id.l2Content)
     }
 
@@ -32,9 +35,11 @@ class OrderRecyclerAdapter(val context:Context, val itemList: ArrayList<Food>) :
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        val food = itemList[position]
-        holder.textRestaurantName.text = food.orderName
-        holder.textRestaurantPrice.text = food.orderPrice
 
+        val food = itemList[position]
+        holder.textFoodIndex.text = i.toString()
+        holder.textFoodName.text = food.orderName
+        holder.textFoodPrice.text = food.orderPrice
+        i++
     }
 }
