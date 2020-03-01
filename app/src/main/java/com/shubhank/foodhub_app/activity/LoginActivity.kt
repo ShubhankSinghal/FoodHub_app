@@ -90,13 +90,28 @@ class LoginActivity : AppCompatActivity() {
 
                                         val data = it.getJSONObject("data")
                                         val success = data.getBoolean("success")
+                                        val data1 = data.getJSONObject("data")
+                                        val name = data1.getString("name")
+                                        val email = data1.getString("email")
+                                        val mobile = data1.getString("mobile_number")
+                                        val address = data1.getString("address")
 
                                         if (success) {
                                             val intent =
                                                 Intent(this@LoginActivity, MainActivity::class.java)
                                             sharedPreferences.edit().putBoolean("isLoggedIn", true).apply()
+                                            intent.putExtra("name",name)
+                                            intent.putExtra("email",email)
+                                            intent.putExtra("mobile_number",mobile)
+                                            intent.putExtra("address",address)
                                             startActivity(intent)
                                             finishAffinity()
+                                        } else {
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                "Invalid login details",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
 
                                     } catch (e: JSONException) {

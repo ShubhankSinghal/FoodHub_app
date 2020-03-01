@@ -111,6 +111,7 @@ class RegistrationActivity : AppCompatActivity() {
 
                                         val data = it.getJSONObject("data")
                                         val success = data.getBoolean("success")
+                                        val msg = data.getString("errorMessage")
 
                                         if (success) {
                                             val intent = Intent(
@@ -119,12 +120,10 @@ class RegistrationActivity : AppCompatActivity() {
                                             )
                                             startActivity(intent)
                                             finishAffinity()
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             Toast.makeText(
                                                 this@RegistrationActivity,
-                                                "Already Registered with above details",
+                                                msg,
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }

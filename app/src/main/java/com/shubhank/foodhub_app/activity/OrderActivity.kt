@@ -33,6 +33,7 @@ class OrderActivity : AppCompatActivity() {
     lateinit var recyclerOrder: RecyclerView
     lateinit var recyclerAdapter: OrderRecyclerAdapter
     lateinit var layoutManager: RecyclerView.LayoutManager
+    lateinit var orderBack : ImageView
 
     val foodInfoList = arrayListOf<Food>()
 
@@ -45,11 +46,16 @@ class OrderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order)
 
         recyclerOrder = findViewById(R.id.recyclerOrder)
+        orderBack = findViewById(R.id.orderBack)
         layoutManager = LinearLayoutManager(this@OrderActivity)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Book Details"
+        supportActionBar?.title = ""
+
+        orderBack.setOnClickListener {
+            finish()
+        }
 
         if (intent != null) {
             restaurantId = intent.getStringExtra("id")

@@ -29,9 +29,10 @@ class LogoutActivity : AppCompatActivity() {
         }
         dialog.setNegativeButton("No") { _, _ ->
 
-            finish()
+            this.finish()
 
         }
+        dialog.setCancelable(false)
         dialog.create()
         dialog.show()
 

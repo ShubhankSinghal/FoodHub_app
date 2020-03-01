@@ -15,6 +15,7 @@
         android:src="@drawable/ic_menu_profile" />
 
     <TextView
+        android:id="@+id/txtPersonName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
@@ -24,6 +25,7 @@
         android:textSize="25sp" />
 
     <TextView
+        android:id="@+id/txtPersonMobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

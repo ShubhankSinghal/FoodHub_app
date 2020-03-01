@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
@@ -19,6 +21,7 @@ import com.shubhank.foodhub_app.fragment.MyProfileFragment
 import com.shubhank.foodhub_app.fragment.FavoriteRestaurantsFragment
 import com.shubhank.foodhub_app.fragment.OrderHistoryFragment
 import com.shubhank.foodhub_app.fragment.FAQsFragment
+import kotlinx.android.synthetic.main.drawer_header.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,18 +32,21 @@ class MainActivity : AppCompatActivity() {
     lateinit var navigationView: NavigationView
     lateinit var sharedPreferences: SharedPreferences
 
+
     var previousMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
+        sharedPreferences =
+            getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
         drawerLayout = findViewById(R.id.drawerLayout)
         coordinatorLayout = findViewById(R.id.coordinatorLayout)
         toolbar = findViewById(R.id.toolbar)
         frameLayout = findViewById(R.id.frame)
         navigationView = findViewById(R.id.navigationView)
+
         setUpToolbar()
 
         openDashboard()

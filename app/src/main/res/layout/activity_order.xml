@@ -14,18 +14,52 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
+            android:id="@+id/orderBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
             android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/orderToolbarName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="25dp"
+            android:padding="8dp"
+            android:text="Baco Tell"
+            android:textSize="28sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
+    <LinearLayout
+        android:id="@+id/orderFavorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="5dp"
+            android:text="Choose from menu listed below:"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_rating2" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/orderFavorite"
         android:layout_margin="5dp" />
 
 </RelativeLayout>
