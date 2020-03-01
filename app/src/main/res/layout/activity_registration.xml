@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF6347"
+    android:background="@color/colorPrimary"
     android:padding="10dp"
     tools:context=".activity.RegistrationActivity">
 
@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/registerConfirmPassword"
         android:layout_marginTop="25dp"
-        android:background="#FF4000"
+        android:background="#B12C14"
         android:padding="8dp"
         android:text="@string/register"
         android:textColor="#FFF"

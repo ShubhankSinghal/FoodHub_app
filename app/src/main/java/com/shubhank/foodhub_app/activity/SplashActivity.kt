@@ -16,25 +16,25 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen)
 
-        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
+        sharedPreferences =
+            getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
 
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
         Handler().postDelayed({
 
-            if(isLoggedIn){
+            if (isLoggedIn) {
 
                 val mainActivity = Intent(this@SplashActivity, MainActivity::class.java)
                 startActivity(mainActivity)
 
-            }
-            else{
+            } else {
 
                 val loginActivity = Intent(this@SplashActivity, LoginActivity::class.java)
                 startActivity(loginActivity)
 
             }
             finish()
-        },1000)
+        }, 1000)
     }
 }

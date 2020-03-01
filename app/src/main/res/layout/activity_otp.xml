@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF6347"
+    android:background="@color/colorPrimary"
     android:padding="15dp"
     android:theme="@style/AppTheme1"
     tools:context=".activity.ForgotPasswordActivity">
@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:padding="8dp"
-        android:textAlignment="center"
         android:text="@string/enter_the_received_otp_below"
+        android:textAlignment="center"
         android:textColor="#FFF"
         android:textSize="18sp" />
 
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/otpConfirmNewPassword"
         android:layout_marginTop="25dp"
-        android:background="#FF4000"
+        android:background="#B12C14"
         android:padding="8dp"
         android:text="@string/next"
         android:textAlignment="center"

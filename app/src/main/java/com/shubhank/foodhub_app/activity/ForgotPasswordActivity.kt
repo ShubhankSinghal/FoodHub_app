@@ -30,7 +30,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
         forgotPasswordEmail = findViewById(R.id.forgotPasswordEmail)
         forgotPasswordButton = findViewById(R.id.forgotPasswordButton)
 
-
         forgotPasswordButton.setOnClickListener {
 
             if (forgotPasswordMobileNumber.text.isNullOrEmpty() || forgotPasswordEmail.text.isNullOrEmpty()) {
@@ -73,7 +72,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                                 this@ForgotPasswordActivity,
                                                 ResetPasswordActivity::class.java
                                             )
-                                            intent.putExtra("mobile_number", forgotPasswordMobileNumber.text.toString())
+                                            intent.putExtra(
+                                                "mobile_number",
+                                                forgotPasswordMobileNumber.text.toString()
+                                            )
                                             startActivity(intent)
                                             if (data.getBoolean("first_try")) {
                                                 Toast.makeText(
@@ -90,9 +92,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                             }
 
                                         } else {
+                                            val msg = data.getString("errorMessage")
                                             Toast.makeText(
                                                 this@ForgotPasswordActivity,
-                                                "No User Exist",
+                                                msg,
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
@@ -100,12 +103,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                     } catch (e: JSONException) {
                                         Toast.makeText(
                                             this@ForgotPasswordActivity,
-                                            "Some unexpected error occur!!!",
+                                            "Some unexpected error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
-
-
                                 },
                                 Response.ErrorListener {
 
@@ -113,24 +114,18 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                         this@ForgotPasswordActivity,
                                         "Volley error occurred",
                                         Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-
+                                    ).show()
                                 }) {
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
                                 headers["Content-type"] = "application/json"
                                 headers["token"] = "6f5311403e6661"
                                 return headers
-
                             }
                         }
-
                     queue.add(jsonObjectRequest)
-
                 }
             }
         }
-
     }
 }

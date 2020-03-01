@@ -85,12 +85,6 @@ class HomeFragment : Fragment() {
 
                                 recyclerHome.layoutManager = layoutManager
 
-                                recyclerHome.addItemDecoration(
-                                    DividerItemDecoration(
-                                        recyclerHome.context,
-                                        (layoutManager as LinearLayoutManager).orientation
-                                    )
-                                )
                             }
                         } else {
                             Toast.makeText(

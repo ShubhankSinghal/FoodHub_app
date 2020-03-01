@@ -58,7 +58,7 @@ class ResetPasswordActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this@ResetPasswordActivity,
-                    "Password Length >5 required",
+                    "Password Length must be greater than 5",
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -66,7 +66,7 @@ class ResetPasswordActivity : AppCompatActivity() {
 
                 Toast.makeText(
                     this@ResetPasswordActivity,
-                    "Password Mismatch",
+                    "Password Mismatched",
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -101,17 +101,23 @@ class ResetPasswordActivity : AppCompatActivity() {
                                             )
                                             startActivity(intent)
                                             finishAffinity()
+                                        } else {
+                                            val msg = data.getString("errorMessage")
+                                            Toast.makeText(
+                                                this@ResetPasswordActivity,
+                                                msg,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
 
                                     } catch (e: JSONException) {
+
                                         Toast.makeText(
                                             this@ResetPasswordActivity,
-                                            "Some unexpected error occur!!!",
+                                            "Some unexpected error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
-
-
                                 },
                                 Response.ErrorListener {
 
@@ -119,21 +125,16 @@ class ResetPasswordActivity : AppCompatActivity() {
                                         this@ResetPasswordActivity,
                                         "Volley error occurred",
                                         Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-
+                                    ).show()
                                 }) {
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
                                 headers["Content-type"] = "application/json"
                                 headers["token"] = "6f5311403e6661"
                                 return headers
-
                             }
                         }
-
                     queue.add(jsonObjectRequest)
-
                 }
             }
         }

@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary1"
-    android:padding="15dp"
+    android:background="@color/colorPrimary"
+    android:padding="20dp"
     android:theme="@style/AppTheme1"
     tools:context=".activity.LoginActivity">
 
     <ImageView
-        android:id="@+id/imgloginLogo"
+        android:id="@+id/imgLoginLogo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         android:padding="8dp"
         android:src="@drawable/splash_screen" />
 
@@ -20,7 +20,7 @@
         android:id="@+id/loginMobileNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imgloginLogo"
+        android:layout_below="@+id/imgLoginLogo"
         android:layout_marginTop="10dp"
         android:background="#FFF"
         android:drawableStart="@drawable/ic_phone"
@@ -48,21 +48,23 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/loginPassword"
         android:layout_marginTop="20dp"
-        android:background="#FF4000"
+        android:background="#B12C14"
         android:padding="8dp"
         android:text="@string/login"
         android:textAlignment="center"
-        android:textColor="#FFF" />
+        android:textColor="#FFF"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/loginForgotPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginButton"
-        android:layout_margin="5dp"
+        android:layout_margin="13dp"
         android:text="@string/login_forgot_password"
         android:textAlignment="center"
-        android:textColor="#FFF" />
+        android:textColor="#FFF"
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/loginRegister"
@@ -71,6 +73,7 @@
         android:layout_alignParentBottom="true"
         android:text="@string/u_don_t_have_an_account_sign_up_now_u"
         android:textAlignment="center"
-        android:textColor="#FFF" />
+        android:textColor="#FFF"
+        android:textSize="17sp" />
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.shubhank.foodhub_app.activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -21,6 +23,7 @@ import com.android.volley.toolbox.Volley
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.adapter.HomeRecyclerAdapter
 import com.shubhank.foodhub_app.adapter.OrderRecyclerAdapter
+import com.shubhank.foodhub_app.database.FoodDatabase
 import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.Restaurant
@@ -106,13 +109,6 @@ class OrderActivity : AppCompatActivity() {
                                 recyclerOrder.adapter = recyclerAdapter
 
                                 recyclerOrder.layoutManager = layoutManager
-
-                                recyclerOrder.addItemDecoration(
-                                    DividerItemDecoration(
-                                        recyclerOrder.context,
-                                        (layoutManager as LinearLayoutManager).orientation
-                                    )
-                                )
 
                             }
 
@@ -256,6 +252,50 @@ class OrderActivity : AppCompatActivity() {
             dialog.create()
             dialog.show()
         }
+    }
+
+
+    class DBAsyncTask(val context: Context, val foodEntity: FoodEntity, val mode: Int) :
+        AsyncTask<Void, Void, Boolean>() {
+
+        /*
+        Mode 1 -> Check DB if the book is favorite or not
+        Mode 2 -> Save the book into DB as favorite
+        Mode 3 -> Remove the favorite book
+         */
+
+        val db = Room.databaseBuilder(context, FoodDatabase::class.java, "books-db").build()
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+
+            when (mode) {
+
+                1 -> {
+                    //Check DB if the book is favorite or not
+                    val book: FoodEntity? = db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
+                    db.close()
+                    return book != null
+                }
+
+                2 -> {
+                    //Save the book into DB as favorite
+                    db.FoodDao().insertRestaurant(foodEntity)
+                    db.close()
+                    return true
+                }
+
+                3 -> {
+                    //Remove the favorite book
+                    db.FoodDao().deleteRestaurant(foodEntity)
+                    db.close()
+                    return true
+                }
+
+            }
+
+            return false
+        }
+
     }
 
 }
