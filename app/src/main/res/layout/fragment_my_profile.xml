@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF6347"
+    android:background="@color/colorPrimary"
     android:padding="20dp"
     tools:context=".fragment.MyProfileFragment">
 
     <ImageView
         android:id="@+id/imgProfileImage"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:padding="8dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/personlogo" />
 
     <TextView
         android:id="@+id/textProfileName"

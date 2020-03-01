@@ -32,15 +32,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var navigationView: NavigationView
     lateinit var sharedPreferences: SharedPreferences
 
-
     var previousMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        sharedPreferences =
-            getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
         drawerLayout = findViewById(R.id.drawerLayout)
         coordinatorLayout = findViewById(R.id.coordinatorLayout)
         toolbar = findViewById(R.id.toolbar)
@@ -48,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         navigationView = findViewById(R.id.navigationView)
 
         setUpToolbar()
-
         openDashboard()
 
         val actionBarDrawerToggle = ActionBarDrawerToggle(
@@ -84,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                         )
                         .commit()
 
-                    supportActionBar?.title = "Favorites"
+                    supportActionBar?.title = "Favorite Restaurants"
                     drawerLayout.closeDrawers()
                 }
                 R.id.profile -> {
@@ -94,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                             MyProfileFragment()
                         )
                         .commit()
-                    supportActionBar?.title = "Profile"
+                    supportActionBar?.title = "My Profile"
                     drawerLayout.closeDrawers()
                 }
                 R.id.faqs -> {
@@ -104,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                             FAQsFragment()
                         )
                         .commit()
-                    supportActionBar?.title = "AboutApp"
+                    supportActionBar?.title = "Frequently Asked Questions"
                     drawerLayout.closeDrawers()
                 }
                 R.id.history -> {
@@ -114,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                             OrderHistoryFragment()
                         )
                         .commit()
-                    supportActionBar?.title = "AboutApp"
+                    supportActionBar?.title = "My Previous Orders"
                     drawerLayout.closeDrawers()
                 }
                 R.id.logout -> {
@@ -150,7 +147,7 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame, fragment)
         transaction.commit()
-        supportActionBar?.title = "Dashboard"
+        supportActionBar?.title = "All Restaurants"
         navigationView.setCheckedItem(R.id.home)
     }
 
