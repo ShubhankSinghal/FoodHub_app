@@ -23,8 +23,6 @@ import com.squareup.picasso.Picasso
 class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaurant>) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
 
-    lateinit var resEntity: FoodEntity
-
     class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val textRestaurantName: TextView = view.findViewById(R.id.txtRestaurantName)
@@ -53,8 +51,6 @@ class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaura
         holder.textRestaurantRating.text = restaurant.restaurantRating
         Picasso.get().load(restaurant.restaurantImage).error(R.drawable.logo)
             .into(holder.imgRestaurantImage)
-
-        holder.imgFavorite.setOnClickListener {
 
             val resEntity = FoodEntity(
                 restaurant.restaurantId?.toInt() as Int,
@@ -137,7 +133,6 @@ class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaura
 
                 }
             }
-        }
 
         holder.l3Content.setOnClickListener {
             val intent = Intent(context, OrderActivity::class.java)
