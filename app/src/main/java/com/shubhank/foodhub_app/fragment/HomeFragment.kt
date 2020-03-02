@@ -2,17 +2,22 @@ package com.shubhank.foodhub_app.fragment
 
 
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.os.AsyncTask
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -20,10 +25,11 @@ import com.android.volley.toolbox.Volley
 
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.adapter.HomeRecyclerAdapter
+import com.shubhank.foodhub_app.database.FoodDatabase
+import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.model.Restaurant
 import com.shubhank.foodhub_app.util.ConnectionManager
 import org.json.JSONException
-
 
 class HomeFragment : Fragment() {
 
@@ -75,11 +81,6 @@ class HomeFragment : Fragment() {
 
                                 recyclerHome.adapter = recyclerAdapter
                                 recyclerHome.layoutManager = layoutManager
-
-
-
-
-
                             }
                         } else {
                             Toast.makeText(

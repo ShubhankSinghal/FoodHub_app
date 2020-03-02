@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.shubhank.foodhub_app.R
@@ -34,7 +35,7 @@ class FavoriteRestaurantsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorite_restaurants, container, false)
 
         recyclerFavorite = view.findViewById(R.id.recyclerFavorites)
-        layoutManager = GridLayoutManager(activity as Context, 2)
+        layoutManager = LinearLayoutManager(activity)
 
         dbRestaurantList = RetrieveFavorite(activity as Context).execute().get()
 
@@ -50,7 +51,7 @@ class FavoriteRestaurantsFragment : Fragment() {
     class RetrieveFavorite(val context: Context) : AsyncTask<Void, Void, List<FoodEntity>>() {
 
         override fun doInBackground(vararg params: Void?): List<FoodEntity> {
-            val db = Room.databaseBuilder(context, FoodDatabase::class.java, "books-db").build()
+            val db = Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
 
             return db.FoodDao().getAllRestaurants()
         }

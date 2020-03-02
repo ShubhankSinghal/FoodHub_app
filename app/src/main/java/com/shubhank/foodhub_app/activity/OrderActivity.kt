@@ -263,7 +263,7 @@ class OrderActivity : AppCompatActivity() {
         Mode 3 -> Remove the favorite book
          */
 
-        val db = Room.databaseBuilder(context, FoodDatabase::class.java, "books-db").build()
+        val db = Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
 
         override fun doInBackground(vararg params: Void?): Boolean {
 

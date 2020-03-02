@@ -17,7 +17,6 @@
         android:orientation="horizontal"
         android:weightSum="6">
 
-
         <ImageView
             android:id="@+id/imgRestaurantImage"
             android:layout_width="0dp"
@@ -27,6 +26,7 @@
             android:src="@mipmap/ic_launcher" />
 
         <RelativeLayout
+            android:id="@+id/l3Content"
             android:layout_width="0dp"
             android:layout_height="135dp"
             android:layout_weight="3.1">
