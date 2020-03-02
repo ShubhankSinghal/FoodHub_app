@@ -1,6 +1,7 @@
 package com.shubhank.foodhub_app.activity
 
 import android.app.AlertDialog
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -38,17 +39,20 @@ class OrderActivity : AppCompatActivity() {
     lateinit var recyclerAdapter: OrderRecyclerAdapter
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var orderBack: ImageView
-
+    lateinit var imgOrderFavorite: ImageView
     val foodInfoList = arrayListOf<Food>()
-
     lateinit var toolbar: Toolbar
-
     var restaurantId: String? = "100"
+    lateinit var restaurantName: String
+    lateinit var restaurantRating: String
+    lateinit var restaurantPrice: String
+    lateinit var restaurantImage: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
 
+        imgOrderFavorite = findViewById(R.id.imgOrderFavorite)
         recyclerOrder = findViewById(R.id.recyclerOrder)
         orderBack = findViewById(R.id.orderBack)
         layoutManager = LinearLayoutManager(this@OrderActivity)
@@ -59,12 +63,20 @@ class OrderActivity : AppCompatActivity() {
 
         orderBack.setOnClickListener {
             finish()
+            val intent = Intent(this@OrderActivity, MainActivity::class.java)
+            startActivity(intent)
         }
 
         if (intent != null) {
             restaurantId = intent.getStringExtra("id")
+            restaurantName = intent.getStringExtra("name")
+            restaurantRating = intent.getStringExtra("rating")
+            restaurantPrice = intent.getStringExtra("price")
+            restaurantImage = intent.getStringExtra("image")
         } else {
             finish()
+            val intent = Intent(this@OrderActivity, MainActivity::class.java)
+            startActivity(intent)
             Toast.makeText(
                 this@OrderActivity,
                 "Some unexpected error occured!",
@@ -74,6 +86,8 @@ class OrderActivity : AppCompatActivity() {
 
         if (restaurantId == "100") {
             finish()
+            val intent = Intent(this@OrderActivity, MainActivity::class.java)
+            startActivity(intent)
             Toast.makeText(
                 this@OrderActivity,
                 "Some unexpected error occured!",
@@ -112,92 +126,87 @@ class OrderActivity : AppCompatActivity() {
                                 recyclerOrder.layoutManager = layoutManager
 
                             }
-/*
-                              val foodEntity = FoodEntity(
-                                    txtRestaurantId?.toInt() as Int,
-                                    txtRestaurantName.text.toString(),
-                                    txtRestaurantPrice.text.toString()
-                                )
 
-                                val checkFav = DBAsyncTask(applicationContext, foodEntity, 1).execute()
-                                val isFav = checkFav.get()
+                            val resEntity = FoodEntity(
+                                restaurantId?.toInt() as Int,
+                                restaurantName,
+                                restaurantRating,
+                                restaurantPrice,
+                                restaurantImage
+                            )
 
-                                if (isFav) {
-                                    btnAddToFavorites.text = "Remove From Favorites"
-                                    val favColor = ContextCompat.getColor(
+                            val checkFav = DBAsyncTask(
+                                applicationContext,
+                                resEntity,
+                                1
+                            ).execute()
+                            val isFav = checkFav.get()
+
+                            if (isFav) {
+                                imgOrderFavorite.setImageResource(R.drawable.ic_rating2)
+                            } else {
+                                imgOrderFavorite.setImageResource(R.drawable.ic_rating1)
+                            }
+
+                            imgOrderFavorite.setOnClickListener {
+
+                                if (!DBAsyncTask(
                                         applicationContext,
-                                        R.color.colorFavorites
-                                    )
-                                    btnAddToFavorites.setBackgroundColor(favColor)
-                                } else {
-                                    btnAddToFavorites.text = "Add to Favorites"
-                                    val noFavColor =
-                                        ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-                                    btnAddToFavorites.setBackgroundColor(noFavColor)
-                                }
+                                        resEntity,
+                                        1
+                                    ).execute().get()
+                                ) {
 
-                                btnAddToFavorites.setOnClickListener {
-
-                                    if (!DBAsyncTask(
+                                    val async =
+                                        DBAsyncTask(
                                             applicationContext,
-                                            foodEntity,
-                                            1
-                                        ).execute().get()
-                                    ) {
+                                            resEntity,
+                                            2
+                                        ).execute()
+                                    val result = async.get()
 
-                                        val async =
-                                            DBAsyncTask(applicationContext, foodEntity, 2).execute()
-                                        val result = async.get()
+                                    if (result) {
+                                        Toast.makeText(
+                                            this@OrderActivity,
+                                            "Restaurant added to Favorites",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
 
-                                        if (result) {
-                                            Toast.makeText(
-                                                this@OrderActivity,
-                                                "Book added to Favorites",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-
-                                            btnAddToFavorites.text = "Remove from Favorites"
-                                            val favColor = ContextCompat.getColor(
-                                                applicationContext,
-                                                R.color.colorFavorites
-                                            )
-                                            btnAddToFavorites.setBackgroundColor(favColor)
-                                        } else {
-                                            Toast.makeText(
-                                                this@OrderActivity,
-                                                "Some Error Occurred",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
+                                        imgOrderFavorite.setImageResource(R.drawable.ic_rating2)
                                     } else {
-
-                                        val async =
-                                            DBAsyncTask(applicationContext, foodEntity, 3).execute()
-                                        val result = async.get()
-
-                                        if (result) {
-                                            Toast.makeText(
-                                                this@OrderActivity,
-                                                "Book removed from Favorites",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-
-                                            btnAddToFavorites.text = "Add to Favorites"
-                                            val favColor = ContextCompat.getColor(
-                                                applicationContext,
-                                                R.color.colorPrimary
-                                            )
-                                            btnAddToFavorites.setBackgroundColor(favColor)
-                                        } else {
-                                            Toast.makeText(
-                                                this@OrderActivity,
-                                                "Some Error Occurred",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-
+                                        Toast.makeText(
+                                            this@OrderActivity,
+                                            "Some Error Occurred",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
-                                }*/
+                                } else {
+
+                                    val async =
+                                        DBAsyncTask(
+                                            applicationContext,
+                                            resEntity,
+                                            3
+                                        ).execute()
+                                    val result = async.get()
+
+                                    if (result) {
+                                        Toast.makeText(
+                                            this@OrderActivity,
+                                            "Restaurant removed from Favorites",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+
+                                        imgOrderFavorite.setImageResource(R.drawable.ic_rating1)
+                                    } else {
+                                        Toast.makeText(
+                                            this@OrderActivity,
+                                            "Some Error Occurred",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
+                            }
 
                         } else {
                             Toast.makeText(
@@ -290,12 +299,8 @@ class OrderActivity : AppCompatActivity() {
                     db.close()
                     return true
                 }
-
             }
-
             return false
         }
-
     }
-
 }

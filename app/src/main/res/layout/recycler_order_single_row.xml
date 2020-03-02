@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="110dp"
     android:layout_margin="6dp"
     android:background="#ffffff"
     android:padding="8dp"
@@ -13,6 +13,7 @@
         android:id="@+id/l2Content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:weightSum="6">
 
         <TextView
@@ -30,14 +31,17 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
-            android:layout_weight="3.3">
+            android:layout_marginTop="5dp"
+            android:layout_weight="4.5">
 
             <TextView
                 android:id="@+id/orderRestaurantOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="8dp"
                 android:text="Mexican Baco"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -45,29 +49,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/orderRestaurantOrder"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
                 android:text="Rs."
                 android:textColor="#A9A9A9"
-                android:textSize="13sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/orderPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/orderRestaurantOrder"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/orderPriceSign"
                 android:text="100"
                 android:textColor="#A9A9A9"
-                android:textSize="13sp" />
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
         <Button
             android:id="@+id/orderButton"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_weight="1.5"
+            android:layout_gravity="center"
             android:background="#FF4000"
             android:text="Add"
             android:textAlignment="center"

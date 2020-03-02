@@ -1,29 +1,31 @@
 package com.shubhank.foodhub_app.adapter
 
-import android.app.Application
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.shubhank.foodhub_app.R
-import com.shubhank.foodhub_app.activity.MainActivity
 import com.shubhank.foodhub_app.activity.OrderActivity
 import com.shubhank.foodhub_app.database.FoodDatabase
 import com.shubhank.foodhub_app.database.FoodEntity
-import com.shubhank.foodhub_app.fragment.HomeFragment
-import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.Restaurant
 import com.squareup.picasso.Picasso
+
 
 class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaurant>) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
 
     class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
 
         val textRestaurantName: TextView = view.findViewById(R.id.txtRestaurantName)
         val textRestaurantPrice: TextView = view.findViewById(R.id.txtRestaurantPrice)
@@ -137,12 +139,22 @@ class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaura
         holder.l3Content.setOnClickListener {
             val intent = Intent(context, OrderActivity::class.java)
             intent.putExtra("id", restaurant.restaurantId)
+            intent.putExtra("name", restaurant.restaurantName)
+            intent.putExtra("rating", restaurant.restaurantRating)
+            intent.putExtra("price", restaurant.restaurantPrice)
+            intent.putExtra("image", restaurant.restaurantImage)
             context.startActivity(intent)
+            (context as Activity).finish()
         }
         holder.imgRestaurantImage.setOnClickListener {
             val intent = Intent(context, OrderActivity::class.java)
             intent.putExtra("id", restaurant.restaurantId)
+            intent.putExtra("name", restaurant.restaurantName)
+            intent.putExtra("rating", restaurant.restaurantRating)
+            intent.putExtra("price", restaurant.restaurantPrice)
+            intent.putExtra("image", restaurant.restaurantImage)
             context.startActivity(intent)
+            (context as Activity).finish()
         }
     }
 
