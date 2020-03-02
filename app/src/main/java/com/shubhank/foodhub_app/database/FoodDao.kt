@@ -17,10 +17,10 @@ interface FoodDao {
     @Delete
     fun deleteRestaurant(foodEntity: FoodEntity)
 
-    @Query("SELECT * FROM books")
+    @Query("SELECT * FROM restaurants")
     fun getAllRestaurants(): List<FoodEntity>
 
-    @Query("SELECT * FROM books WHERE restaurant_id = :restaurantId")
+    @Query("SELECT * FROM restaurants WHERE restaurant_id = :restaurantId")
     fun getRestaurantById(restaurantId: String): FoodEntity
 
 }

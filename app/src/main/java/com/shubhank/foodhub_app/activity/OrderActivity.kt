@@ -29,6 +29,7 @@ import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.Restaurant
 import com.shubhank.foodhub_app.util.ConnectionManager
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.recycler_home_single_row.*
 import org.json.JSONObject
 
 class OrderActivity : AppCompatActivity() {
@@ -36,7 +37,7 @@ class OrderActivity : AppCompatActivity() {
     lateinit var recyclerOrder: RecyclerView
     lateinit var recyclerAdapter: OrderRecyclerAdapter
     lateinit var layoutManager: RecyclerView.LayoutManager
-    lateinit var orderBack : ImageView
+    lateinit var orderBack: ImageView
 
     val foodInfoList = arrayListOf<Food>()
 
@@ -101,7 +102,7 @@ class OrderActivity : AppCompatActivity() {
                                     foodJsonObject.getString("id"),
                                     foodJsonObject.getString("name"),
                                     foodJsonObject.getString("cost_for_one")
-                                    )
+                                )
                                 foodInfoList.add(foodObject)
                                 recyclerAdapter =
                                     OrderRecyclerAdapter(this@OrderActivity, foodInfoList)
@@ -111,16 +112,14 @@ class OrderActivity : AppCompatActivity() {
                                 recyclerOrder.layoutManager = layoutManager
 
                             }
-
-                            /*    val foodEntity = FoodEntity(
-                                    txtFoodId?.toInt() as Int,
-                                    txtFoodName.text.toString(),
-                                    txtFoodPrice.text.toString()
+/*
+                              val foodEntity = FoodEntity(
+                                    txtRestaurantId?.toInt() as Int,
+                                    txtRestaurantName.text.toString(),
+                                    txtRestaurantPrice.text.toString()
                                 )
 
-
-
-                                val checkFav = DBAsyncTask(applicationContext, bookEntity, 1).execute()
+                                val checkFav = DBAsyncTask(applicationContext, foodEntity, 1).execute()
                                 val isFav = checkFav.get()
 
                                 if (isFav) {
@@ -141,18 +140,18 @@ class OrderActivity : AppCompatActivity() {
 
                                     if (!DBAsyncTask(
                                             applicationContext,
-                                            bookEntity,
+                                            foodEntity,
                                             1
                                         ).execute().get()
                                     ) {
 
                                         val async =
-                                            DBAsyncTask(applicationContext, bookEntity, 2).execute()
+                                            DBAsyncTask(applicationContext, foodEntity, 2).execute()
                                         val result = async.get()
 
                                         if (result) {
                                             Toast.makeText(
-                                                this@DescriptionActivity,
+                                                this@OrderActivity,
                                                 "Book added to Favorites",
                                                 Toast.LENGTH_SHORT
                                             ).show()
@@ -165,7 +164,7 @@ class OrderActivity : AppCompatActivity() {
                                             btnAddToFavorites.setBackgroundColor(favColor)
                                         } else {
                                             Toast.makeText(
-                                                this@DescriptionActivity,
+                                                this@OrderActivity,
                                                 "Some Error Occurred",
                                                 Toast.LENGTH_SHORT
                                             ).show()
@@ -173,12 +172,12 @@ class OrderActivity : AppCompatActivity() {
                                     } else {
 
                                         val async =
-                                            DBAsyncTask(applicationContext, bookEntity, 3).execute()
+                                            DBAsyncTask(applicationContext, foodEntity, 3).execute()
                                         val result = async.get()
 
                                         if (result) {
                                             Toast.makeText(
-                                                this@DescriptionActivity,
+                                                this@OrderActivity,
                                                 "Book removed from Favorites",
                                                 Toast.LENGTH_SHORT
                                             ).show()
@@ -191,7 +190,7 @@ class OrderActivity : AppCompatActivity() {
                                             btnAddToFavorites.setBackgroundColor(favColor)
                                         } else {
                                             Toast.makeText(
-                                                this@DescriptionActivity,
+                                                this@OrderActivity,
                                                 "Some Error Occurred",
                                                 Toast.LENGTH_SHORT
                                             ).show()
@@ -272,7 +271,8 @@ class OrderActivity : AppCompatActivity() {
 
                 1 -> {
                     //Check DB if the book is favorite or not
-                    val book: FoodEntity? = db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
+                    val book: FoodEntity? =
+                        db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
                     db.close()
                     return book != null
                 }

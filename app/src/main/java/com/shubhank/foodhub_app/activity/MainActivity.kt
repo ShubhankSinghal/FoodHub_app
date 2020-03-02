@@ -3,25 +3,23 @@ package com.shubhank.foodhub_app.activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.widget.Toolbar;
 import com.shubhank.foodhub_app.R
-import com.shubhank.foodhub_app.fragment.HomeFragment
-import com.shubhank.foodhub_app.fragment.MyProfileFragment
-import com.shubhank.foodhub_app.fragment.FavoriteRestaurantsFragment
-import com.shubhank.foodhub_app.fragment.OrderHistoryFragment
-import com.shubhank.foodhub_app.fragment.FAQsFragment
+import com.shubhank.foodhub_app.fragment.*
 import kotlinx.android.synthetic.main.drawer_header.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +42,15 @@ class MainActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         frameLayout = findViewById(R.id.frame)
         navigationView = findViewById(R.id.navigationView)
+
+        val name = sharedPreferences.getString("res_name","John Doe").toString()
+        val number = sharedPreferences.getString("res_number","+91-1115555555").toString()
+
+        val header: View = navigationView.getHeaderView(0)
+        val txtPersonName = header.findViewById(R.id.txtPersonName) as TextView
+        txtPersonName.text = name
+        val txtPersonMobile = header.findViewById(R.id.txtPersonMobile) as TextView
+        txtPersonMobile.text = number
 
         setUpToolbar()
         openDashboard()

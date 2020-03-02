@@ -96,7 +96,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:padding="6dp"
-                android:src="@drawable/ic_rating2" />
+                android:src="@drawable/ic_rating1" />
 
             <TextView
                 android:id="@+id/txtRestaurantRating"

@@ -28,15 +28,10 @@ import org.json.JSONException
 class HomeFragment : Fragment() {
 
     lateinit var recyclerHome: RecyclerView
-
     lateinit var layoutManager: RecyclerView.LayoutManager
-
     lateinit var progressLayout: RelativeLayout
-
     lateinit var progressBar: ProgressBar
-
     val restaurantInfoList = arrayListOf<Restaurant>()
-
     lateinit var recyclerAdapter: HomeRecyclerAdapter
 
     override fun onCreateView(
@@ -47,13 +42,10 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         recyclerHome = view.findViewById(R.id.recyclerHome)
-
         layoutManager = LinearLayoutManager(activity)
 
         val queue = Volley.newRequestQueue(activity as Context)
-
         val url = "http://13.235.250.119/v2/restaurants/fetch_result/"
-
 
         if (ConnectionManager().checkConnectivity(activity as Context)) {
 
@@ -82,8 +74,11 @@ class HomeFragment : Fragment() {
                                     HomeRecyclerAdapter(activity as Context, restaurantInfoList)
 
                                 recyclerHome.adapter = recyclerAdapter
-
                                 recyclerHome.layoutManager = layoutManager
+
+
+
+
 
                             }
                         } else {
@@ -96,11 +91,10 @@ class HomeFragment : Fragment() {
                     } catch (e: JSONException) {
                         Toast.makeText(
                             activity as Context,
-                            "Some unexpected error occur!!!",
+                            "Some unexpected error occurred!!!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-
 
                 }, Response.ErrorListener {
 
@@ -109,26 +103,18 @@ class HomeFragment : Fragment() {
                             activity as Context,
                             "Volley error occurred",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     }
-
                 }) {
                     override fun getHeaders(): MutableMap<String, String> {
                         val headers = HashMap<String, String>()
                         headers["Content-type"] = "application/json"
                         headers["token"] = "6f5311403e6661"
                         return headers
-
                     }
                 }
-
             queue.add(jsonObjectRequest)
-
         }
-
         return view
     }
-
-
 }

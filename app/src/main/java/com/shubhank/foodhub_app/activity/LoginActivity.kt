@@ -109,10 +109,30 @@ class LoginActivity : AppCompatActivity() {
                                         val data = it.getJSONObject("data")
                                         val success = data.getBoolean("success")
                                         if (success) {
+                                            val data1 = data.getJSONObject("data")
                                             val intent =
                                                 Intent(this@LoginActivity, MainActivity::class.java)
+
                                             sharedPreferences.edit().putBoolean("isLoggedIn", true)
                                                 .apply()
+                                            sharedPreferences.edit()
+                                                .putString("res_id", data1.getString("user_id"))
+                                                .apply()
+                                            sharedPreferences.edit()
+                                                .putString("res_name", data1.getString("name"))
+                                                .apply()
+                                            sharedPreferences.edit()
+                                                .putString("res_email", data1.getString("email"))
+                                                .apply()
+                                            sharedPreferences.edit().putString(
+                                                "res_number",
+                                                data1.getString("mobile_number")
+                                            ).apply()
+                                            sharedPreferences.edit().putString(
+                                                "res_address",
+                                                data1.getString("address")
+                                            ).apply()
+
                                             startActivity(intent)
                                             finishAffinity()
                                         } else {
