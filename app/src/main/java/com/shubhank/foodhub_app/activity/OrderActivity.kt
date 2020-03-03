@@ -47,11 +47,13 @@ class OrderActivity : AppCompatActivity() {
     lateinit var restaurantRating: String
     lateinit var restaurantPrice: String
     lateinit var restaurantImage: String
+    lateinit var orderToolbarName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
 
+        orderToolbarName = findViewById(R.id.orderToolbarName)
         imgOrderFavorite = findViewById(R.id.imgOrderFavorite)
         recyclerOrder = findViewById(R.id.recyclerOrder)
         orderBack = findViewById(R.id.orderBack)
@@ -84,6 +86,8 @@ class OrderActivity : AppCompatActivity() {
             ).show()
         }
 
+        orderToolbarName.text = restaurantName
+
         if (restaurantId == "100") {
             finish()
             val intent = Intent(this@OrderActivity, MainActivity::class.java)
@@ -95,7 +99,7 @@ class OrderActivity : AppCompatActivity() {
             ).show()
         }
 
-
+        var count = 1
         val queue = Volley.newRequestQueue(this@OrderActivity)
         val url = "http://13.235.250.119/v2/restaurants/fetch_result/$restaurantId"
 
@@ -113,6 +117,7 @@ class OrderActivity : AppCompatActivity() {
                             for (i in 0 until data1.length()) {
                                 val foodJsonObject = data1.getJSONObject((i))
                                 val foodObject = Food(
+                                    (count++).toString(),
                                     foodJsonObject.getString("id"),
                                     foodJsonObject.getString("name"),
                                     foodJsonObject.getString("cost_for_one")
