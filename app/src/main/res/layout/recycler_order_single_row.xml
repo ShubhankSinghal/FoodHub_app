@@ -18,9 +18,9 @@
 
         <TextView
             android:id="@+id/orderIndex"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:text="10"
             android:textColor="#A9A9A9"
@@ -28,17 +28,15 @@
 
         <RelativeLayout
             android:id="@+id/restaurantList"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="4.5">
+            android:layout_weight="4.0"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/orderRestaurantOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:padding="8dp"
                 android:text="Mexican Baco"
                 android:textSize="18sp"
@@ -73,7 +71,7 @@
             android:layout_width="100dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
-            android:background="#FF4000"
+            android:background="@color/orderButtonAdd"
             android:text="Add"
             android:textAlignment="center"
             android:textColor="#FFF" />

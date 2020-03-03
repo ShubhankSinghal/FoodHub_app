@@ -81,7 +81,7 @@ class OrderActivity : AppCompatActivity() {
             startActivity(intent)
             Toast.makeText(
                 this@OrderActivity,
-                "Some unexpected error occured!",
+                "Some unexpected error occurred!",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -94,7 +94,7 @@ class OrderActivity : AppCompatActivity() {
             startActivity(intent)
             Toast.makeText(
                 this@OrderActivity,
-                "Some unexpected error occured!",
+                "Some unexpected error occurred!",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -252,14 +252,14 @@ class OrderActivity : AppCompatActivity() {
             val dialog = AlertDialog.Builder(this@OrderActivity)
             dialog.setTitle("Error")
             dialog.setMessage("Internet Connection Not Found")
-            dialog.setPositiveButton("Open Settings") { text, listener ->
+            dialog.setPositiveButton("Open Settings") { _ , _ ->
 
                 val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
                 startActivity(settingsIntent)
                 finish()
 
             }
-            dialog.setNegativeButton("Exit") { text, listener ->
+            dialog.setNegativeButton("Exit") { _ , _ ->
                 ActivityCompat.finishAffinity((this@OrderActivity))
             }
             dialog.create()
@@ -307,5 +307,10 @@ class OrderActivity : AppCompatActivity() {
             }
             return false
         }
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this@OrderActivity, MainActivity::class.java)
+        startActivity(intent)
     }
 }

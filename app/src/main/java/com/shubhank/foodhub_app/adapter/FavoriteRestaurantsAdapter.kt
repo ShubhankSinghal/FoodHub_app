@@ -159,12 +159,6 @@ class FavoriteRestaurantsAdapter(val context: Context, val itemList: List<FoodEn
     class DBAsyncTask(val context: Context, val foodEntity: FoodEntity, val mode: Int) :
         AsyncTask<Void, Void, Boolean>() {
 
-        /*
-        Mode 1 -> Check DB if the book is favorite or not
-        Mode 2 -> Save the book into DB as favorite
-        Mode 3 -> Remove the favorite book
-         */
-
         val db = Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
 
         override fun doInBackground(vararg params: Void?): Boolean {
@@ -172,22 +166,22 @@ class FavoriteRestaurantsAdapter(val context: Context, val itemList: List<FoodEn
             when (mode) {
 
                 1 -> {
-                    //Check DB if the book is favorite or not
-                    val book: FoodEntity? =
+                    //Check DB if the restaurant is favorite or not
+                    val res: FoodEntity? =
                         db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
                     db.close()
-                    return book != null
+                    return res != null
                 }
 
                 2 -> {
-                    //Save the book into DB as favorite
+                    //Save the restaurant into DB as favorite
                     db.FoodDao().insertRestaurant(foodEntity)
                     db.close()
                     return true
                 }
 
                 3 -> {
-                    //Remove the favorite book
+                    //Remove the favorite restaurant
                     db.FoodDao().deleteRestaurant(foodEntity)
                     db.close()
                     return true
