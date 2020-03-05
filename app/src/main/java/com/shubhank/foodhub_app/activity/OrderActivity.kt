@@ -142,7 +142,8 @@ class OrderActivity : AppCompatActivity() {
 
                                 recyclerOrder.setOnClickListener {
                                     recyclerAdapter.notifyDataSetChanged()
-                                    var dbCount = RetrieveCountOrders(this@OrderActivity).execute().get()
+                                    var dbCount =
+                                        RetrieveCountOrders(this@OrderActivity).execute().get()
                                     if (dbCount != 0
                                     ) {
                                         orderProceedButton.visibility = View.VISIBLE
@@ -339,8 +340,10 @@ class OrderActivity : AppCompatActivity() {
         dialog.setMessage("Are you sure you want to go back? Add Items, if any will be removed from the cart")
         dialog.setPositiveButton("Yes") { _, _ ->
 
-            val intent = Intent(this@OrderActivity, MainActivity::class.java)
-            startActivity(intent)
+            if (DeleteOrders(this@OrderActivity).execute().get()) {
+                val intent = Intent(this@OrderActivity, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
         dialog.setNegativeButton("No") { _, _ ->
 
@@ -355,6 +358,60 @@ class OrderActivity : AppCompatActivity() {
             val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
 
             return db.orderDao().getCountOrders()
+        }
+
+    }
+
+    class DBAsyncTaskA(val context: Context, val orderEntity: OrderEntity, val mode: Int) :
+        AsyncTask<Void, Void, Boolean>() {
+
+        val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+
+            when (mode) {
+
+                1 -> {
+                    //Check DB if the orders is favorite or not
+                    val order: OrderEntity? =
+                        db.orderDao().getOrderById(orderEntity.order_id.toString())
+                    db.close()
+                    return order != null
+                }
+
+                2 -> {
+                    //Save the restaurant into DB as favorite
+                    db.orderDao().insertOrder(orderEntity)
+                    db.close()
+                    return true
+                }
+
+                3 -> {
+                    //Remove the favorite restaurant
+                    db.orderDao().deleteOrder(orderEntity)
+                    db.close()
+                    return true
+                }
+
+                4 -> {
+                    //Delete all the data
+                    db.orderDao().deleteAll()
+                    db.close()
+                    return true
+                }
+            }
+            return false
+        }
+    }
+
+    class DeleteOrders(val context: Context) : AsyncTask<Void, Void, Boolean>() {
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+            val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
+
+            db.orderDao().deleteAll()
+            db.close()
+            return true
         }
 
     }
