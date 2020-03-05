@@ -76,6 +76,16 @@
             android:textAlignment="center"
             android:textColor="#FFF" />
 
+        <Button
+            android:id="@+id/orderButton1"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:background="@color/orderButtonRemove"
+            android:text="Remove"
+            android:textAlignment="center"
+            android:textColor="#FFF"
+            android:visibility="gone" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

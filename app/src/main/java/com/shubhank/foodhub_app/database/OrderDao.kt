@@ -20,6 +20,9 @@ interface OrderDao {
     @Query("SELECT * FROM Orders")
     fun getAllOrders(): List<OrderEntity>
 
+    @Query("SELECT COUNT(*) FROM Orders")
+    fun getCountOrders() : Int
+
     @Query("SELECT * FROM Orders WHERE order_id = :orderId")
     fun getOrderById(orderId: String): OrderEntity
 

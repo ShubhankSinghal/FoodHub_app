@@ -2,8 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#FF6347"
     android:padding="15dp"
+    tools:context=".activity.completionActivity"
     android:theme="@style/AppTheme1">
 
     <ImageView
@@ -30,7 +32,7 @@
         android:text="Ok"
         android:textColor="#FFF"
         android:background="#FF6347"
-        android:padding="8dp"
+        android:padding="20dp"
         android:textSize="18sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"/>

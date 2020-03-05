@@ -64,7 +64,19 @@
         android:id="@+id/recyclerOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/orderProceedButton"
         android:layout_below="@id/orderFavorite"
         android:layout_margin="5dp" />
+
+    <Button
+        android:id="@+id/orderProceedButton"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="Proceed To Cart"
+        android:textColor="#FFF"
+        android:textSize="18sp" />
+
 
 </RelativeLayout>

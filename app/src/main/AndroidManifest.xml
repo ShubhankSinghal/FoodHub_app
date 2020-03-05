@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LogoutActivity"></activity>
+        <activity android:name=".activity.completionActivity"></activity>
+        <activity android:name=".activity.LogoutActivity" />
         <activity
             android:name=".activity.RegistrationActivity"
             android:configChanges="orientation|screenSize"

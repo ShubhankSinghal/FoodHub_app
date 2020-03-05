@@ -26,6 +26,8 @@ import com.shubhank.foodhub_app.adapter.HomeRecyclerAdapter
 import com.shubhank.foodhub_app.adapter.OrderRecyclerAdapter
 import com.shubhank.foodhub_app.database.FoodDatabase
 import com.shubhank.foodhub_app.database.FoodEntity
+import com.shubhank.foodhub_app.database.OrderDatabase
+import com.shubhank.foodhub_app.database.OrderEntity
 import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.Restaurant
 import com.shubhank.foodhub_app.util.ConnectionManager
@@ -48,11 +50,14 @@ class OrderActivity : AppCompatActivity() {
     lateinit var restaurantPrice: String
     lateinit var restaurantImage: String
     lateinit var orderToolbarName: TextView
+    lateinit var orderProceedButton: Button
+    lateinit var orderEntity: OrderEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
 
+        orderProceedButton = findViewById(R.id.orderProceedButton)
         orderToolbarName = findViewById(R.id.orderToolbarName)
         imgOrderFavorite = findViewById(R.id.imgOrderFavorite)
         recyclerOrder = findViewById(R.id.recyclerOrder)
@@ -64,9 +69,8 @@ class OrderActivity : AppCompatActivity() {
         supportActionBar?.title = ""
 
         orderBack.setOnClickListener {
-            finish()
-            val intent = Intent(this@OrderActivity, MainActivity::class.java)
-            startActivity(intent)
+
+            onBackPressed()
         }
 
         if (intent != null) {
@@ -122,14 +126,39 @@ class OrderActivity : AppCompatActivity() {
                                     foodJsonObject.getString("name"),
                                     foodJsonObject.getString("cost_for_one")
                                 )
+
                                 foodInfoList.add(foodObject)
                                 recyclerAdapter =
                                     OrderRecyclerAdapter(this@OrderActivity, foodInfoList)
 
                                 recyclerOrder.adapter = recyclerAdapter
-
                                 recyclerOrder.layoutManager = layoutManager
 
+                                orderEntity = OrderEntity(
+                                    foodJsonObject.getString("id").toInt(),
+                                    foodJsonObject.getString("name"),
+                                    foodJsonObject.getString("cost_for_one")
+                                )
+
+                                recyclerOrder.setOnClickListener {
+                                    recyclerAdapter.notifyDataSetChanged()
+                                    var dbCount = RetrieveCountOrders(this@OrderActivity).execute().get()
+                                    if (dbCount != 0
+                                    ) {
+                                        orderProceedButton.visibility = View.VISIBLE
+                                    } else {
+                                        orderProceedButton.visibility = View.GONE
+                                    }
+                                }
+
+                            }
+
+                            orderProceedButton.setOnClickListener {
+                                val intent = Intent(this@OrderActivity, CartActivity::class.java)
+                                intent.putExtra("id", restaurantId)
+                                intent.putExtra("name", restaurantName)
+
+                                startActivity(intent)
                             }
 
                             val resEntity = FoodEntity(
@@ -252,14 +281,14 @@ class OrderActivity : AppCompatActivity() {
             val dialog = AlertDialog.Builder(this@OrderActivity)
             dialog.setTitle("Error")
             dialog.setMessage("Internet Connection Not Found")
-            dialog.setPositiveButton("Open Settings") { _ , _ ->
+            dialog.setPositiveButton("Open Settings") { _, _ ->
 
                 val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
                 startActivity(settingsIntent)
                 finish()
 
             }
-            dialog.setNegativeButton("Exit") { _ , _ ->
+            dialog.setNegativeButton("Exit") { _, _ ->
                 ActivityCompat.finishAffinity((this@OrderActivity))
             }
             dialog.create()
@@ -271,12 +300,6 @@ class OrderActivity : AppCompatActivity() {
     class DBAsyncTask(val context: Context, val foodEntity: FoodEntity, val mode: Int) :
         AsyncTask<Void, Void, Boolean>() {
 
-        /*
-        Mode 1 -> Check DB if the book is favorite or not
-        Mode 2 -> Save the book into DB as favorite
-        Mode 3 -> Remove the favorite book
-         */
-
         val db = Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
 
         override fun doInBackground(vararg params: Void?): Boolean {
@@ -284,7 +307,7 @@ class OrderActivity : AppCompatActivity() {
             when (mode) {
 
                 1 -> {
-                    //Check DB if the book is favorite or not
+                    //Check DB if the restaurant is favorite or not
                     val book: FoodEntity? =
                         db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
                     db.close()
@@ -292,14 +315,14 @@ class OrderActivity : AppCompatActivity() {
                 }
 
                 2 -> {
-                    //Save the book into DB as favorite
+                    //Save the restaurant into DB as favorite
                     db.FoodDao().insertRestaurant(foodEntity)
                     db.close()
                     return true
                 }
 
                 3 -> {
-                    //Remove the favorite book
+                    //Remove the favorite restaurant
                     db.FoodDao().deleteRestaurant(foodEntity)
                     db.close()
                     return true
@@ -310,7 +333,30 @@ class OrderActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this@OrderActivity, MainActivity::class.java)
-        startActivity(intent)
+
+        val dialog = AlertDialog.Builder(this@OrderActivity)
+        dialog.setTitle("Confirmation")
+        dialog.setMessage("Are you sure you want to go back? Add Items, if any will be removed from the cart")
+        dialog.setPositiveButton("Yes") { _, _ ->
+
+            val intent = Intent(this@OrderActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+        dialog.setNegativeButton("No") { _, _ ->
+
+        }
+        dialog.create()
+        dialog.show()
     }
+
+    class RetrieveCountOrders(val context: Context) : AsyncTask<Void, Void, Int>() {
+
+        override fun doInBackground(vararg params: Void?): Int {
+            val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
+
+            return db.orderDao().getCountOrders()
+        }
+
+    }
+
 }

@@ -5,10 +5,8 @@ import android.os.AsyncTask
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.shubhank.foodhub_app.R
@@ -17,6 +15,7 @@ import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.database.OrderDatabase
 import com.shubhank.foodhub_app.database.OrderEntity
 import com.shubhank.foodhub_app.model.Food
+
 
 class OrderRecyclerAdapter(val context: Context, val itemList: ArrayList<Food>) :
     RecyclerView.Adapter<OrderRecyclerAdapter.OrderViewHolder>() {
@@ -46,13 +45,77 @@ class OrderRecyclerAdapter(val context: Context, val itemList: ArrayList<Food>) 
         holder.textFoodName.text = food.orderName
         holder.textFoodPrice.text = food.orderPrice
 
+        val orderEntity = OrderEntity(
+            food.orderId?.toInt() as Int,
+            food.orderName,
+            food.orderPrice
+        )
+
         holder.orderButton.setOnClickListener {
 
+            if (!DBAsyncTask(
+                    context,
+                    orderEntity,
+                    1
+                ).execute().get()
+            ) {
 
+                val async =
+                    DBAsyncTask(context, orderEntity, 2).execute()
+                val result = async.get()
 
+                if (result) {
+                    Toast.makeText(
+                        context,
+                        "Added to Cart",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    holder.orderButton.text = "Remove"
+                    val favColor = ContextCompat.getColor(
+                        context,
+                        R.color.orderButtonRemove
+                    )
+                    holder.orderButton.setBackgroundColor(favColor)
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Some Error Occurred",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+
+                val async =
+                    DBAsyncTask(context, orderEntity, 3).execute()
+                val result = async.get()
+
+                if (result) {
+                    Toast.makeText(
+                        context,
+                        "Removed from Cart",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    holder.orderButton.text = "Add"
+                    val favColor = ContextCompat.getColor(
+                        context,
+                        R.color.orderButtonAdd
+                    )
+                    holder.orderButton.setBackgroundColor(favColor)
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Some Error Occurred",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
 
     }
+
+
     class DBAsyncTask(val context: Context, val orderEntity: OrderEntity, val mode: Int) :
         AsyncTask<Void, Void, Boolean>() {
 
@@ -83,9 +146,16 @@ class OrderRecyclerAdapter(val context: Context, val itemList: ArrayList<Food>) 
                     db.close()
                     return true
                 }
+
+                4 -> {
+                    //To get all orders
+                    db.orderDao().getAllOrders()
+                    db.close()
+                    return true
+                }
             }
             return false
         }
-    }
 
+    }
 }
