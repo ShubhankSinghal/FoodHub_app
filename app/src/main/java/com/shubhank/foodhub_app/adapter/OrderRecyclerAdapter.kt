@@ -63,13 +63,21 @@ class OrderRecyclerAdapter(
             food.orderPrice
         )
 
+        if (DBAsyncTask(context, orderEntity, 3).execute().get()) {
+            holder.orderButton.visibility = View.GONE
+            holder.orderButton1.visibility = View.VISIBLE
+        } else {
+            holder.orderButton1.visibility = View.GONE
+            holder.orderButton.visibility = View.VISIBLE
+        }
+
         holder.orderButton.setOnClickListener {
 
             holder.orderButton.visibility = View.GONE
             holder.orderButton1.visibility = View.VISIBLE
             listener.onAddItemClick(food)
             val async = DBAsyncTask(context, orderEntity, 1).execute().get()
-
+            CartRecyclerAdapter.price += food.orderPrice.toInt()
             if (async) {
                 Toast.makeText(
                     context,
@@ -92,7 +100,7 @@ class OrderRecyclerAdapter(
             holder.orderButton.visibility = View.VISIBLE
             listener.onRemoveItemClick(food)
             val async = DBAsyncTask(context, orderEntity, 2).execute().get()
-
+            CartRecyclerAdapter.price -=food.orderPrice.toInt()
             if (async) {
                 Toast.makeText(
                     context,
@@ -135,6 +143,12 @@ class DBAsyncTask(val context: Context, val orderEntity: OrderEntity, val mode: 
                 db.orderDao().deleteOrder(orderEntity)
                 db.close()
                 return true
+            }
+
+            3 -> {
+                val order: OrderEntity? = db.orderDao().getOrderById(orderEntity.order_id.toString())
+                db.close()
+                return order != null
             }
         }
         return false

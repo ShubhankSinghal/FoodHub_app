@@ -43,24 +43,22 @@ class CartActivity : AppCompatActivity() {
     var restaurantId: String? = "100"
     lateinit var restaurantName: String
     var dbOrderList = listOf<OrderEntity>()
-    lateinit var cartRestaurantName : TextView
-
+    lateinit var cartRestaurantName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        dbOrderList = RetrieveOrders(this.applicationContext).execute().get()
-
         cartButton = findViewById(R.id.cartButton)
         cartBack = findViewById(R.id.cartBack)
-
         recyclerCart = findViewById(R.id.recyclerCart)
         layoutManager = LinearLayoutManager(this@CartActivity)
 
+        dbOrderList = RetrieveOrders(this@CartActivity).execute().get()
         recyclerAdapter = CartRecyclerAdapter(this@CartActivity, dbOrderList)
         recyclerCart.adapter = recyclerAdapter
         recyclerCart.layoutManager = layoutManager
+        cartButton.text = "Place Order(Total: Rs.${CartRecyclerAdapter.price.toString()})"
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -100,8 +98,8 @@ class CartActivity : AppCompatActivity() {
         }
         // recyclerAdapter = CartRecyclerAdapter(this@CartActivity, foodInfoList)
 
-        recyclerCart.adapter = recyclerAdapter
-        recyclerCart.layoutManager = layoutManager
+        /*recyclerCart.adapter = recyclerAdapter
+        recyclerCart.layoutManager = layoutManager*/
 
         cartButton.setOnClickListener {
             val queue = Volley.newRequestQueue(this@CartActivity)
@@ -170,6 +168,12 @@ class CartActivity : AppCompatActivity() {
             }*/
             }
         }
+    }
+
+    override fun onBackPressed() {
+
+       finish()
+
     }
 
     class RetrieveOrders(val context: Context) : AsyncTask<Void, Void, List<OrderEntity>>() {

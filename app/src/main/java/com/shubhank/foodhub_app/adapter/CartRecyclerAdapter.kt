@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.foodhub_app.R
@@ -12,7 +13,9 @@ import com.shubhank.foodhub_app.database.OrderEntity
 class CartRecyclerAdapter(val context: Context, val orderList: List<OrderEntity>) :
     RecyclerView.Adapter<CartRecyclerAdapter.CartViewHolder>() {
 
-    var price = 0
+    companion object {
+        var price = 0
+    }
 
     class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -36,7 +39,7 @@ class CartRecyclerAdapter(val context: Context, val orderList: List<OrderEntity>
         val order = orderList[position]
         holder.cartOrderName.text = order.orderName
         holder.cartOrderPrice.text = order.orderPrice
-        price += order.orderPrice.toInt()
+
     }
 
 }

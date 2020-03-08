@@ -22,6 +22,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.shubhank.foodhub_app.R
+import com.shubhank.foodhub_app.adapter.CartRecyclerAdapter
 import com.shubhank.foodhub_app.adapter.HomeRecyclerAdapter
 import com.shubhank.foodhub_app.adapter.OrderRecyclerAdapter
 import com.shubhank.foodhub_app.database.FoodDatabase
@@ -131,6 +132,7 @@ class OrderActivity : AppCompatActivity() {
                                 )
 
                                 foodInfoList.add(foodObject)
+
                                 recyclerAdapter = OrderRecyclerAdapter(
                                     this@OrderActivity,
                                     foodInfoList,
@@ -359,6 +361,7 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
+    /*
     class RetrieveCountOrders(val context: Context) : AsyncTask<Void, Void, Boolean>() {
 
         override fun doInBackground(vararg params: Void?): Boolean {
@@ -370,7 +373,7 @@ class OrderActivity : AppCompatActivity() {
         }
 
     }
-
+*/
     class DBAsyncTaskA(val context: Context, val orderEntity: OrderEntity, val mode: Int) :
         AsyncTask<Void, Void, Boolean>() {
 
