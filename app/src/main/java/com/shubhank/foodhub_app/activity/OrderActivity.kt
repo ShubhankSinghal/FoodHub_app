@@ -33,6 +33,7 @@ import com.shubhank.foodhub_app.model.Restaurant
 import com.shubhank.foodhub_app.util.ConnectionManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recycler_home_single_row.*
+import kotlinx.android.synthetic.main.recycler_order_single_row.view.*
 import org.json.JSONObject
 
 class OrderActivity : AppCompatActivity() {
@@ -43,8 +44,10 @@ class OrderActivity : AppCompatActivity() {
     lateinit var orderBack: ImageView
     lateinit var imgOrderFavorite: ImageView
     val foodInfoList = arrayListOf<Food>()
+    var orderList = arrayListOf<Food>()
     lateinit var toolbar: Toolbar
     var restaurantId: String? = "100"
+    var x: Int = 0
     lateinit var restaurantName: String
     lateinit var restaurantRating: String
     lateinit var restaurantPrice: String
@@ -58,6 +61,7 @@ class OrderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order)
 
         orderProceedButton = findViewById(R.id.orderProceedButton)
+        orderProceedButton.visibility = View.GONE
         orderToolbarName = findViewById(R.id.orderToolbarName)
         imgOrderFavorite = findViewById(R.id.imgOrderFavorite)
         recyclerOrder = findViewById(R.id.recyclerOrder)
@@ -121,36 +125,35 @@ class OrderActivity : AppCompatActivity() {
                             for (i in 0 until data1.length()) {
                                 val foodJsonObject = data1.getJSONObject((i))
                                 val foodObject = Food(
-                                    (count++).toString(),
                                     foodJsonObject.getString("id"),
                                     foodJsonObject.getString("name"),
                                     foodJsonObject.getString("cost_for_one")
                                 )
 
                                 foodInfoList.add(foodObject)
-                                recyclerAdapter =
-                                    OrderRecyclerAdapter(this@OrderActivity, foodInfoList)
+                                recyclerAdapter = OrderRecyclerAdapter(
+                                    this@OrderActivity,
+                                    foodInfoList,
+                                    object : OrderRecyclerAdapter.OnItemClickListener {
+                                        override fun onAddItemClick(foodItem: Food) {
+                                            orderList.add(foodItem)
+                                            if (orderList.size > 0) {
+                                                orderProceedButton.visibility = View.VISIBLE
+                                                x = 1
+                                            }
+                                        }
+
+                                        override fun onRemoveItemClick(foodItem: Food) {
+                                            orderList.remove(foodItem)
+                                            if (orderList.isEmpty()) {
+                                                orderProceedButton.visibility = View.GONE
+                                                x = 0
+                                            }
+                                        }
+                                    })
 
                                 recyclerOrder.adapter = recyclerAdapter
                                 recyclerOrder.layoutManager = layoutManager
-
-                                orderEntity = OrderEntity(
-                                    foodJsonObject.getString("id").toInt(),
-                                    foodJsonObject.getString("name"),
-                                    foodJsonObject.getString("cost_for_one")
-                                )
-
-                                recyclerOrder.setOnClickListener {
-                                    recyclerAdapter.notifyDataSetChanged()
-                                    var dbCount =
-                                        RetrieveCountOrders(this@OrderActivity).execute().get()
-                                    if (dbCount != 0
-                                    ) {
-                                        orderProceedButton.visibility = View.VISIBLE
-                                    } else {
-                                        orderProceedButton.visibility = View.GONE
-                                    }
-                                }
 
                             }
 
@@ -334,30 +337,36 @@ class OrderActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        if (x == 1) {
+            val dialog = AlertDialog.Builder(this@OrderActivity)
+            dialog.setTitle("Confirmation")
+            dialog.setMessage("Items from the cart will be removed")
+            dialog.setPositiveButton("Yes") { _, _ ->
 
-        val dialog = AlertDialog.Builder(this@OrderActivity)
-        dialog.setTitle("Confirmation")
-        dialog.setMessage("Are you sure you want to go back? Add Items, if any will be removed from the cart")
-        dialog.setPositiveButton("Yes") { _, _ ->
-
-            if (DeleteOrders(this@OrderActivity).execute().get()) {
-                val intent = Intent(this@OrderActivity, MainActivity::class.java)
-                startActivity(intent)
+                if (DeleteOrders(this@OrderActivity).execute().get()) {
+                    val intent = Intent(this@OrderActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
             }
-        }
-        dialog.setNegativeButton("No") { _, _ ->
+            dialog.setNegativeButton("No") { _, _ ->
 
+            }
+            dialog.create()
+            dialog.show()
+        } else {
+            val intent = Intent(this@OrderActivity, MainActivity::class.java)
+            startActivity(intent)
         }
-        dialog.create()
-        dialog.show()
     }
 
-    class RetrieveCountOrders(val context: Context) : AsyncTask<Void, Void, Int>() {
+    class RetrieveCountOrders(val context: Context) : AsyncTask<Void, Void, Boolean>() {
 
-        override fun doInBackground(vararg params: Void?): Int {
+        override fun doInBackground(vararg params: Void?): Boolean {
             val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
 
-            return db.orderDao().getCountOrders()
+            val order: Int = db.orderDao().getCountOrders()
+            db.close()
+            return order != 0
         }
 
     }
@@ -393,12 +402,6 @@ class OrderActivity : AppCompatActivity() {
                     return true
                 }
 
-                4 -> {
-                    //Delete all the data
-                    db.orderDao().deleteAll()
-                    db.close()
-                    return true
-                }
             }
             return false
         }

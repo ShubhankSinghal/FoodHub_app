@@ -17,8 +17,14 @@ import com.shubhank.foodhub_app.database.OrderEntity
 import com.shubhank.foodhub_app.model.Food
 
 
-class OrderRecyclerAdapter(val context: Context, val itemList: ArrayList<Food>) :
+class OrderRecyclerAdapter(
+    val context: Context,
+    val itemList: ArrayList<Food>,
+    val listener: OnItemClickListener
+) :
     RecyclerView.Adapter<OrderRecyclerAdapter.OrderViewHolder>() {
+
+
 
     class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -26,6 +32,12 @@ class OrderRecyclerAdapter(val context: Context, val itemList: ArrayList<Food>) 
         val textFoodName: TextView = view.findViewById(R.id.orderRestaurantOrder)
         val textFoodPrice: TextView = view.findViewById(R.id.orderPrice)
         val orderButton: Button = view.findViewById(R.id.orderButton)
+        val orderButton1: Button = view.findViewById(R.id.orderButton1)
+    }
+
+    interface OnItemClickListener {
+        fun onAddItemClick(foodItem: Food)
+        fun onRemoveItemClick(foodItem: Food)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
@@ -41,7 +53,7 @@ class OrderRecyclerAdapter(val context: Context, val itemList: ArrayList<Food>) 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
 
         val food = itemList[position]
-        holder.textFoodIndex.text = food.orderIndex
+        holder.textFoodIndex.text = (position+1).toString()
         holder.textFoodName.text = food.orderName
         holder.textFoodPrice.text = food.orderPrice
 
@@ -53,109 +65,79 @@ class OrderRecyclerAdapter(val context: Context, val itemList: ArrayList<Food>) 
 
         holder.orderButton.setOnClickListener {
 
-            if (!DBAsyncTask(
+            holder.orderButton.visibility = View.GONE
+            holder.orderButton1.visibility = View.VISIBLE
+            listener.onAddItemClick(food)
+            val async = DBAsyncTask(context, orderEntity, 1).execute().get()
+
+            if (async) {
+                Toast.makeText(
                     context,
-                    orderEntity,
-                    1
-                ).execute().get()
-            ) {
-
-                val async =
-                    DBAsyncTask(context, orderEntity, 2).execute()
-                val result = async.get()
-
-                if (result) {
-                    Toast.makeText(
-                        context,
-                        "Added to Cart",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    holder.orderButton.text = "Remove"
-                    val favColor = ContextCompat.getColor(
-                        context,
-                        R.color.orderButtonRemove
-                    )
-                    holder.orderButton.setBackgroundColor(favColor)
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Some Error Occurred",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                    "Added to Cart",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-
-                val async =
-                    DBAsyncTask(context, orderEntity, 3).execute()
-                val result = async.get()
-
-                if (result) {
-                    Toast.makeText(
-                        context,
-                        "Removed from Cart",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    holder.orderButton.text = "Add"
-                    val favColor = ContextCompat.getColor(
-                        context,
-                        R.color.orderButtonAdd
-                    )
-                    holder.orderButton.setBackgroundColor(favColor)
-                } else {
-                    Toast.makeText(
-                        context,
-                        "Some Error Occurred",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                Toast.makeText(
+                    context,
+                    "Some Error Occurred",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
         }
 
-    }
+        holder.orderButton1.setOnClickListener {
 
+            holder.orderButton1.visibility = View.GONE
+            holder.orderButton.visibility = View.VISIBLE
+            listener.onRemoveItemClick(food)
+            val async = DBAsyncTask(context, orderEntity, 2).execute().get()
 
-    class DBAsyncTask(val context: Context, val orderEntity: OrderEntity, val mode: Int) :
-        AsyncTask<Void, Void, Boolean>() {
-
-        val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
-
-        override fun doInBackground(vararg params: Void?): Boolean {
-
-            when (mode) {
-
-                1 -> {
-                    //Check DB if the order is present or not
-                    val order: OrderEntity? =
-                        db.orderDao().getOrderById(orderEntity.order_id.toString())
-                    db.close()
-                    return order != null
-                }
-
-                2 -> {
-                    //Save the order into DB
-                    db.orderDao().insertOrder(orderEntity)
-                    db.close()
-                    return true
-                }
-
-                3 -> {
-                    //Remove the order
-                    db.orderDao().deleteOrder(orderEntity)
-                    db.close()
-                    return true
-                }
-
-                4 -> {
-                    //To get all orders
-                    db.orderDao().getAllOrders()
-                    db.close()
-                    return true
-                }
+            if (async) {
+                Toast.makeText(
+                    context,
+                    "Removed from Cart",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(
+                    context,
+                    "Some Error Occurred",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            return false
-        }
 
+        }
     }
+
+}
+
+
+class DBAsyncTask(val context: Context, val orderEntity: OrderEntity, val mode: Int) :
+    AsyncTask<Void, Void, Boolean>() {
+
+    val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
+
+    override fun doInBackground(vararg params: Void?): Boolean {
+
+        when (mode) {
+
+
+            1 -> {
+                //Save the order into DB
+                db.orderDao().insertOrder(orderEntity)
+                db.close()
+                return true
+            }
+
+            2 -> {
+                //Remove the order
+                db.orderDao().deleteOrder(orderEntity)
+                db.close()
+                return true
+            }
+        }
+        return false
+    }
+
 }
