@@ -348,6 +348,7 @@ class OrderActivity : AppCompatActivity() {
                 if (DeleteOrders(this@OrderActivity).execute().get()) {
                     val intent = Intent(this@OrderActivity, MainActivity::class.java)
                     startActivity(intent)
+                    CartRecyclerAdapter.price = 0
                 }
             }
             dialog.setNegativeButton("No") { _, _ ->

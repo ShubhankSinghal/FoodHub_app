@@ -3,6 +3,7 @@ package com.shubhank.foodhub_app.activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.Image
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,8 @@ import com.shubhank.foodhub_app.database.OrderEntity
 import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.util.ConnectionManager
 import kotlinx.android.synthetic.main.activity_cart.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 class CartActivity : AppCompatActivity() {
 
@@ -44,11 +47,14 @@ class CartActivity : AppCompatActivity() {
     lateinit var restaurantName: String
     var dbOrderList = listOf<OrderEntity>()
     lateinit var cartRestaurantName: TextView
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
+        sharedPreferences =
+            getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
         cartButton = findViewById(R.id.cartButton)
         cartBack = findViewById(R.id.cartBack)
         recyclerCart = findViewById(R.id.recyclerCart)
@@ -68,6 +74,8 @@ class CartActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        val userId = sharedPreferences.getString("res_id", "01").toString()
+        val totalCost = CartRecyclerAdapter.price
         if (intent != null) {
             restaurantId = intent.getStringExtra("id")
             restaurantName = intent.getStringExtra("name")
@@ -102,44 +110,58 @@ class CartActivity : AppCompatActivity() {
         recyclerCart.layoutManager = layoutManager*/
 
         cartButton.setOnClickListener {
+
             val queue = Volley.newRequestQueue(this@CartActivity)
             val url = "http://13.235.250.119/v2/place_order/fetch_result/"
+            val jsonParams = JSONObject()
+            jsonParams.put("user_id", userId)
+            jsonParams.put("restaurant_id", restaurantId.toString())
+            jsonParams.put("total_cost", totalCost.toString())
+            val jsonOrder = JSONObject()
+            for (element in dbOrderList) {
+                jsonOrder.put("food_item_id", element.order_id.toString())
+            }
+            val arrayOrder = JSONArray()
+            arrayOrder.put(jsonOrder)
+            jsonParams.put("food", jsonOrder)
 
             if (ConnectionManager().checkConnectivity(this@CartActivity)) {
 
-                /*val jsonRequest =
-                    object : JsonObjectRequest(Request.Method.POST, url, , Response.Listener {
+                val jsonRequest =
+                    object :
+                        JsonObjectRequest(Request.Method.POST, url, jsonParams, Response.Listener {
 
-                        try {
-                            val data = it.getJSONObject("data")
-                            val success = data.getBoolean("success")
-                            if (success) {
+                            try {
+                                val data = it.getJSONObject("data")
+                                val success = data.getBoolean("success")
+                                if (success) {
 
-                                val intent =
-                                    Intent(this@CartActivity, completionActivity::class.java)
-                                startActivity(intent)
+                                    val intent =
+                                        Intent(this@CartActivity, completionActivity::class.java)
+                                    startActivity(intent)
+                                    DeleteOrders(this@CartActivity).execute().get()
+                                    CartRecyclerAdapter.price = 0
+                                }
+
+
+                            } catch (e: Exception) {
+
+                                Toast.makeText(
+                                    this@CartActivity,
+                                    "Some Error has Occurred",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
                             }
 
-
-                        } catch (e: Exception) {
+                        }, Response.ErrorListener {
 
                             Toast.makeText(
                                 this@CartActivity,
-                                "Some Error has Occurred",
+                                "Volley error $it!!!",
                                 Toast.LENGTH_SHORT
                             ).show()
-
-                        }
-
-                    }, Response.ErrorListener {
-
-                        Toast.makeText(
-                            this@CartActivity,
-                            "Volley error $it!!!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }) {
+                        }) {
                         override fun getHeaders(): MutableMap<String, String> {
                             val headers = HashMap<String, String>()
                             headers["Content-type"] = "application/json"
@@ -165,14 +187,14 @@ class CartActivity : AppCompatActivity() {
                 }
                 dialog.create()
                 dialog.show()
-            }*/
             }
         }
     }
 
+
     override fun onBackPressed() {
 
-       finish()
+        finish()
 
     }
 
@@ -182,6 +204,18 @@ class CartActivity : AppCompatActivity() {
             val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
 
             return db.orderDao().getAllOrders()
+        }
+
+    }
+
+    class DeleteOrders(val context: Context) : AsyncTask<Void, Void, Boolean>() {
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+            val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
+
+            db.orderDao().deleteAll()
+            db.close()
+            return true
         }
 
     }
