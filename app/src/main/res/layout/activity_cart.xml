@@ -75,7 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/cartButton"
         android:layout_below="@id/line"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:padding="8dp" />
 
     <Button
         android:id="@+id/cartButton"

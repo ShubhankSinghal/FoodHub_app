@@ -38,7 +38,7 @@ class CartRecyclerAdapter(val context: Context, val orderList: List<OrderEntity>
 
         val order = orderList[position]
         holder.cartOrderName.text = order.orderName
-        holder.cartOrderPrice.text = order.orderPrice
+        holder.cartOrderPrice.text = "Rs.${order.orderPrice}"
 
     }
 
