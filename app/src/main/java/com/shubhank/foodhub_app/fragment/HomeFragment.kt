@@ -51,6 +51,16 @@ class HomeFragment : Fragment() {
 
     }
 
+    var ratingComparator1 = Comparator<Restaurant> { res1, res2 ->
+
+        if (res1.restaurantPrice.compareTo(res2.restaurantPrice, true) == 0) {
+            res1.restaurantName.compareTo(res2.restaurantName, true)
+        } else {
+            res1.restaurantPrice.compareTo(res2.restaurantPrice, true)
+        }
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -139,8 +149,18 @@ class HomeFragment : Fragment() {
 
         val id = item?.itemId
 
-        if (id == R.id.action_sort) {
+        if (id == R.id.action_sort_rating) {
             Collections.sort(restaurantInfoList, ratingComparator)
+            restaurantInfoList.reverse()
+        }
+
+        if(id == R.id.action_sort_cost){
+            Collections.sort(restaurantInfoList, ratingComparator1)
+            restaurantInfoList
+        }
+
+        if(id == R.id.action_sort_cost_desc){
+            Collections.sort(restaurantInfoList, ratingComparator1)
             restaurantInfoList.reverse()
         }
 

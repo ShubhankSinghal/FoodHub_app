@@ -3,10 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_sort"
+        android:id="@+id/action_sort_rating"
         android:icon="@drawable/ic_menu_filter"
-        android:orderInCategory="100"
-        android:title="Sort"
+        android:orderInCategory="99"
+        android:title="Rating"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_sort_cost"
+        android:orderInCategory="100"
+        android:title="Cost(low to high)" />
+
+    <item
+        android:id="@+id/action_sort_cost_desc"
+        android:orderInCategory="101"
+        android:title="Cost(high to low)" />
 
 </menu>
