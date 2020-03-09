@@ -7,17 +7,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.foodhub_app.R
+import com.shubhank.foodhub_app.model.Food
+import com.shubhank.foodhub_app.model.History
 
-class OrderHistoryRecyclerAdapter(val context:Context, val itemList: ArrayList<String>) :
-    RecyclerView.Adapter<OrderHistoryRecyclerAdapter.OrderHistoryViewHolder>() {
+class OrderHistoryRecyclerAdapterChild(val context:Context, val itemList: ArrayList<Food>) :
+    RecyclerView.Adapter<OrderHistoryRecyclerAdapterChild.OrderHistoryViewHolder>() {
 
     class OrderHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.txtRestaurantName)
+        val orderName : TextView = view.findViewById(R.id.cartOrderName)
+        val orderPrice : TextView = view.findViewById(R.id.cartOrderPrice)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_order_history_single_row, parent, false)
+            .inflate(R.layout.recycler_cart_single_row, parent, false)
         return OrderHistoryViewHolder(view)
     }
 
@@ -26,7 +29,8 @@ class OrderHistoryRecyclerAdapter(val context:Context, val itemList: ArrayList<S
     }
 
     override fun onBindViewHolder(holder: OrderHistoryViewHolder, position: Int) {
-        val text = itemList[position]
-        holder.textView.text = text
+        val order = itemList[position]
+        holder.orderName.text = order.orderName
+        holder.orderPrice.text = "Rs.${order.orderPrice}"
     }
 }
