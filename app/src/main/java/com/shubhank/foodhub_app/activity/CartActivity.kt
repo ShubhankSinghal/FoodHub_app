@@ -23,6 +23,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.gson.JsonArray
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.adapter.CartRecyclerAdapter
 import com.shubhank.foodhub_app.adapter.OrderRecyclerAdapter
@@ -104,10 +105,6 @@ class CartActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-        // recyclerAdapter = CartRecyclerAdapter(this@CartActivity, foodInfoList)
-
-        /*recyclerCart.adapter = recyclerAdapter
-        recyclerCart.layoutManager = layoutManager*/
 
         cartButton.setOnClickListener {
 
@@ -117,13 +114,13 @@ class CartActivity : AppCompatActivity() {
             jsonParams.put("user_id", userId)
             jsonParams.put("restaurant_id", restaurantId.toString())
             jsonParams.put("total_cost", totalCost.toString())
-            val jsonOrder = JSONObject()
+            var arrayOrder = JSONArray()
             for (element in dbOrderList) {
+                var jsonOrder = JSONObject()
                 jsonOrder.put("food_item_id", element.order_id.toString())
+                arrayOrder.put(jsonOrder)
             }
-            val arrayOrder = JSONArray()
-            arrayOrder.put(jsonOrder)
-            jsonParams.put("food", jsonOrder)
+            jsonParams.put("food", arrayOrder)
 
             if (ConnectionManager().checkConnectivity(this@CartActivity)) {
 
