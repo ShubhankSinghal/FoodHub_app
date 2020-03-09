@@ -10,12 +10,12 @@ import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.History
 
-class OrderHistoryRecyclerAdapterChild(val context:Context, val itemList: ArrayList<Food>) :
+class OrderHistoryRecyclerAdapterChild(val context: Context, val itemList: ArrayList<Food>) :
     RecyclerView.Adapter<OrderHistoryRecyclerAdapterChild.OrderHistoryViewHolder>() {
 
     class OrderHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val orderName : TextView = view.findViewById(R.id.cartOrderName)
-        val orderPrice : TextView = view.findViewById(R.id.cartOrderPrice)
+        val orderName: TextView = view.findViewById(R.id.cartOrderName)
+        val orderPrice: TextView = view.findViewById(R.id.cartOrderPrice)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {

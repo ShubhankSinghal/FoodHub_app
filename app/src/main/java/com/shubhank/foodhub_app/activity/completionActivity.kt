@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_order_completion.*
 
 class completionActivity : AppCompatActivity() {
 
-    lateinit var orderCompletionButton : Button
+    lateinit var orderCompletionButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

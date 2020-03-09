@@ -36,15 +36,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
+        sharedPreferences =
+            getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
         drawerLayout = findViewById(R.id.drawerLayout)
         coordinatorLayout = findViewById(R.id.coordinatorLayout)
         toolbar = findViewById(R.id.toolbar)
         frameLayout = findViewById(R.id.frame)
         navigationView = findViewById(R.id.navigationView)
 
-        val name = sharedPreferences.getString("res_name","John Doe").toString()
-        val number = sharedPreferences.getString("res_number","+91-1115555555").toString()
+        val name = sharedPreferences.getString("res_name", "John Doe").toString()
+        val number = sharedPreferences.getString("res_number", "+91-1115555555").toString()
 
         val header: View = navigationView.getHeaderView(0)
         val txtPersonName = header.findViewById(R.id.txtPersonName) as TextView

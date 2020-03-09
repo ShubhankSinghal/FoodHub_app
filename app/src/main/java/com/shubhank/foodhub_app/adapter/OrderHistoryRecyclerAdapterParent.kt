@@ -11,13 +11,14 @@ import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.History
 
-class OrderHistoryRecyclerAdapterParent(val context:Context, val itemList: ArrayList<History>) :
+class OrderHistoryRecyclerAdapterParent(val context: Context, val itemList: ArrayList<History>) :
     RecyclerView.Adapter<OrderHistoryRecyclerAdapterParent.OrderHistoryViewHolder>() {
 
     class OrderHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val resName : TextView = view.findViewById(R.id.orderHistoryRestaurantName)
-        val orderDate : TextView = view.findViewById(R.id.orderHistoryDate)
-        val recyclerOrderHistory : RecyclerView = view.findViewById(R.id.recyclerOrderHistorySingleRow)
+        val resName: TextView = view.findViewById(R.id.orderHistoryRestaurantName)
+        val orderDate: TextView = view.findViewById(R.id.orderHistoryDate)
+        val recyclerOrderHistory: RecyclerView =
+            view.findViewById(R.id.recyclerOrderHistorySingleRow)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {
@@ -35,13 +36,14 @@ class OrderHistoryRecyclerAdapterParent(val context:Context, val itemList: Array
         val history = itemList[position]
         holder.resName.text = history.restaurantName
         val date = history.orderPlacedAt
-        holder.orderDate.text = "${date.substring(0,2)}/${date.substring(3,5)}/20${date.substring(6,8)}"
+        holder.orderDate.text =
+            "${date.substring(0, 2)}/${date.substring(3, 5)}/20${date.substring(6, 8)}"
         setUpRecycler(holder.recyclerOrderHistory, history)
     }
 
     private fun setUpRecycler(recyclerOrderHistory: RecyclerView, history: History) {
         val orderList = ArrayList<Food>()
-        for(i in 0 until history.foodItems.length()){
+        for (i in 0 until history.foodItems.length()) {
             val foodJson = history.foodItems.getJSONObject(i)
             orderList.add(
                 Food(

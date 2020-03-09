@@ -5,10 +5,8 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
@@ -30,6 +28,9 @@ import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.model.Restaurant
 import com.shubhank.foodhub_app.util.ConnectionManager
 import org.json.JSONException
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.HashMap
 
 class HomeFragment : Fragment() {
 
@@ -40,6 +41,16 @@ class HomeFragment : Fragment() {
     val restaurantInfoList = arrayListOf<Restaurant>()
     lateinit var recyclerAdapter: HomeRecyclerAdapter
 
+    var ratingComparator = Comparator<Restaurant> { res1, res2 ->
+
+        if (res1.restaurantRating.compareTo(res2.restaurantRating, true) == 0) {
+            res1.restaurantName.compareTo(res2.restaurantName, true)
+        } else {
+            res1.restaurantRating.compareTo(res2.restaurantRating, true)
+        }
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +58,7 @@ class HomeFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        setHasOptionsMenu(true)
         recyclerHome = view.findViewById(R.id.recyclerHome)
         layoutManager = LinearLayoutManager(activity)
 
@@ -117,5 +129,23 @@ class HomeFragment : Fragment() {
             queue.add(jsonObjectRequest)
         }
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater?.inflate(R.menu.menu_home, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val id = item?.itemId
+
+        if (id == R.id.action_sort) {
+            Collections.sort(restaurantInfoList, ratingComparator)
+            restaurantInfoList.reverse()
+        }
+
+        recyclerAdapter.notifyDataSetChanged()
+
+        return super.onOptionsItemSelected(item)
     }
 }

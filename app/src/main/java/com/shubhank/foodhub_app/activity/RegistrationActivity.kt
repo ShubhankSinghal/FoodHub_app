@@ -72,10 +72,10 @@ class RegistrationActivity : AppCompatActivity() {
                 ).show()
             } else if (registerPassword.text.isNullOrEmpty() || registerConfirmPassword.text.isNullOrEmpty()) {
                 Toast.makeText(
-                    this@RegistrationActivity,
-                    "Password is Missing!",
-                    Toast.LENGTH_SHORT
-                )
+                        this@RegistrationActivity,
+                        "Password is Missing!",
+                        Toast.LENGTH_SHORT
+                    )
                     .show()
             } else if (registerPassword.text.length <= 5) {
                 Toast.makeText(

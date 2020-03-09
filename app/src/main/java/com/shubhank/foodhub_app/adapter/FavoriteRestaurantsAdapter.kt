@@ -52,87 +52,87 @@ class FavoriteRestaurantsAdapter(val context: Context, val itemList: List<FoodEn
         Picasso.get().load(restaurant.restaurantImage).error(R.drawable.logo)
             .into(holder.imgRestaurantImage)
 
-            val resEntity = FoodEntity(
-                restaurant.restaurant_id,
-                restaurant.restaurantName,
-                restaurant.restaurantRating,
-                restaurant.restaurantPrice,
-                restaurant.restaurantImage
-            )
+        val resEntity = FoodEntity(
+            restaurant.restaurant_id,
+            restaurant.restaurantName,
+            restaurant.restaurantPrice,
+            restaurant.restaurantRating,
+            restaurant.restaurantImage
+        )
 
-            val checkFav = HomeRecyclerAdapter.DBAsyncTask(
-                context,
-                resEntity,
-                1
-            ).execute()
-            val isFav = checkFav.get()
+        val checkFav = HomeRecyclerAdapter.DBAsyncTask(
+            context,
+            resEntity,
+            1
+        ).execute()
+        val isFav = checkFav.get()
 
-            if (isFav) {
-                holder.imgFavorite.setImageResource(R.drawable.ic_rating2)
-            } else {
-                holder.imgFavorite.setImageResource(R.drawable.ic_rating1)
-            }
+        if (isFav) {
+            holder.imgFavorite.setImageResource(R.drawable.ic_rating2)
+        } else {
+            holder.imgFavorite.setImageResource(R.drawable.ic_rating1)
+        }
 
-            holder.imgFavorite.setOnClickListener {
+        holder.imgFavorite.setOnClickListener {
 
-                if (!HomeRecyclerAdapter.DBAsyncTask(
+            if (!HomeRecyclerAdapter.DBAsyncTask(
+                    context,
+                    resEntity,
+                    1
+                ).execute().get()
+            ) {
+
+                val async =
+                    HomeRecyclerAdapter.DBAsyncTask(
                         context,
                         resEntity,
-                        1
-                    ).execute().get()
-                ) {
+                        2
+                    ).execute()
+                val result = async.get()
 
-                    val async =
-                        HomeRecyclerAdapter.DBAsyncTask(
-                            context,
-                            resEntity,
-                            2
-                        ).execute()
-                    val result = async.get()
+                if (result) {
+                    Toast.makeText(
+                        context,
+                        "Restaurant added to Favorites",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-                    if (result) {
-                        Toast.makeText(
-                            context,
-                            "Restaurant added to Favorites",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        holder.imgFavorite.setImageResource(R.drawable.ic_rating2)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Some Error Occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    holder.imgFavorite.setImageResource(R.drawable.ic_rating2)
                 } else {
-
-                    val async =
-                        HomeRecyclerAdapter.DBAsyncTask(
-                            context,
-                            resEntity,
-                            3
-                        ).execute()
-                    val result = async.get()
-
-                    if (result) {
-                        Toast.makeText(
-                            context,
-                            "Restaurant removed from Favorites",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        holder.imgFavorite.setImageResource(R.drawable.ic_rating1)
-                    } else {
-                        Toast.makeText(
-                            context,
-                            "Some Error Occurred",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
+                    Toast.makeText(
+                        context,
+                        "Some Error Occurred",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            } else {
+
+                val async =
+                    HomeRecyclerAdapter.DBAsyncTask(
+                        context,
+                        resEntity,
+                        3
+                    ).execute()
+                val result = async.get()
+
+                if (result) {
+                    Toast.makeText(
+                        context,
+                        "Restaurant removed from Favorites",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    holder.imgFavorite.setImageResource(R.drawable.ic_rating1)
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Some Error Occurred",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             }
+        }
 
         holder.l3Content.setOnClickListener {
             val intent = Intent(context, OrderActivity::class.java)

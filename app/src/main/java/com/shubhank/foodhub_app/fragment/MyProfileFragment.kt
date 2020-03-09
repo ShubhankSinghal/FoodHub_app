@@ -17,10 +17,10 @@ import com.shubhank.foodhub_app.R
  */
 class MyProfileFragment : Fragment() {
 
-    lateinit var profileName : TextView
-    lateinit var profileNumber : TextView
-    lateinit var profileEmail : TextView
-    lateinit var profileAddress : TextView
+    lateinit var profileName: TextView
+    lateinit var profileNumber: TextView
+    lateinit var profileEmail: TextView
+    lateinit var profileAddress: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,12 +30,15 @@ class MyProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_my_profile, container, false)
 
         val sharedPreferences =
-            this.activity!!.getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
+            this.activity!!.getSharedPreferences(
+                getString(R.string.preference_file_name),
+                Context.MODE_PRIVATE
+            )
 
-        val name = sharedPreferences.getString("res_name","John Doe").toString()
-        val number = sharedPreferences.getString("res_number","+91-1115555555").toString()
-        val email = sharedPreferences.getString("res_email","johnathan@doe.gmail").toString()
-        val address = sharedPreferences.getString("res_address","Gurugram").toString()
+        val name = sharedPreferences.getString("res_name", "John Doe").toString()
+        val number = sharedPreferences.getString("res_number", "+91-1115555555").toString()
+        val email = sharedPreferences.getString("res_email", "johnathan@doe.gmail").toString()
+        val address = sharedPreferences.getString("res_address", "Gurugram").toString()
 
         profileName = view.findViewById(R.id.textProfileName)
         profileNumber = view.findViewById(R.id.textProfileMobileNumber)

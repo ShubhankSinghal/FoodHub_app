@@ -9,15 +9,15 @@
         android:id="@+id/orderHistoryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="Your Previous orders are listed below:"
-        android:textSize="18sp"
-        android:padding="10dp"/>
+        android:textSize="18sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerOrderHistory"
-        android:layout_below="@+id/orderHistoryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/orderHistoryText"
         android:layout_marginTop="2dp" />
 
 </RelativeLayout>

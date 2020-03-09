@@ -25,7 +25,6 @@ class OrderRecyclerAdapter(
     RecyclerView.Adapter<OrderRecyclerAdapter.OrderViewHolder>() {
 
 
-
     class OrderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val textFoodIndex: TextView = view.findViewById(R.id.orderIndex)
@@ -53,7 +52,7 @@ class OrderRecyclerAdapter(
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
 
         val food = itemList[position]
-        holder.textFoodIndex.text = (position+1).toString()
+        holder.textFoodIndex.text = (position + 1).toString()
         holder.textFoodName.text = food.orderName
         holder.textFoodPrice.text = food.orderPrice
 
@@ -100,7 +99,7 @@ class OrderRecyclerAdapter(
             holder.orderButton.visibility = View.VISIBLE
             listener.onRemoveItemClick(food)
             val async = DBAsyncTask(context, orderEntity, 2).execute().get()
-            CartRecyclerAdapter.price -=food.orderPrice.toInt()
+            CartRecyclerAdapter.price -= food.orderPrice.toInt()
             if (async) {
                 Toast.makeText(
                     context,
@@ -146,7 +145,8 @@ class DBAsyncTask(val context: Context, val orderEntity: OrderEntity, val mode: 
             }
 
             3 -> {
-                val order: OrderEntity? = db.orderDao().getOrderById(orderEntity.order_id.toString())
+                val order: OrderEntity? =
+                    db.orderDao().getOrderById(orderEntity.order_id.toString())
                 db.close()
                 return order != null
             }
