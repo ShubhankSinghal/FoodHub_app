@@ -64,7 +64,8 @@
         android:text="@string/login_forgot_password"
         android:textAlignment="center"
         android:textColor="#FFF"
-        android:textSize="17sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/loginRegister"
@@ -74,6 +75,7 @@
         android:text="@string/u_don_t_have_an_account_sign_up_now_u"
         android:textAlignment="center"
         android:textColor="#FFF"
-        android:textSize="17sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

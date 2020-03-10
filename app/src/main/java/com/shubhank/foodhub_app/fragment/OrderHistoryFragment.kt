@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -29,6 +31,8 @@ class OrderHistoryFragment : Fragment() {
     lateinit var recyclerOrderHistory: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var recyclerAdapter: OrderHistoryRecyclerAdapterParent
+    lateinit var progressLayout: RelativeLayout
+    lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +40,10 @@ class OrderHistoryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_order_history, container, false)
+
+        progressLayout = view.findViewById(R.id.progressLayout)
+        progressBar = view.findViewById(R.id.progressBar)
+        progressLayout.visibility = View.VISIBLE
 
         recyclerOrderHistory = view.findViewById(R.id.recyclerOrderHistory)
         layoutManager = LinearLayoutManager(activity)
@@ -56,6 +64,8 @@ class OrderHistoryFragment : Fragment() {
                 object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
 
                     try {
+
+                        progressLayout.visibility = View.GONE
 
                         val data = it.getJSONObject("data")
                         val success = data.getBoolean("success")

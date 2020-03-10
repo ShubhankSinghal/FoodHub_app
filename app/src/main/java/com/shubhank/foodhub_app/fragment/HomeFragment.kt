@@ -2,29 +2,22 @@ package com.shubhank.foodhub_app.fragment
 
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.adapter.HomeRecyclerAdapter
-import com.shubhank.foodhub_app.database.FoodDatabase
-import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.model.Restaurant
 import com.shubhank.foodhub_app.util.ConnectionManager
 import org.json.JSONException
@@ -40,6 +33,7 @@ class HomeFragment : Fragment() {
     lateinit var progressBar: ProgressBar
     val restaurantInfoList = arrayListOf<Restaurant>()
     lateinit var recyclerAdapter: HomeRecyclerAdapter
+    var searchView: SearchView? = null
 
     var ratingComparator = Comparator<Restaurant> { res1, res2 ->
 
@@ -69,8 +63,31 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         setHasOptionsMenu(true)
+
+        progressLayout = view.findViewById(R.id.progressLayout)
+        progressBar = view.findViewById(R.id.progressBar)
+        progressLayout.visibility = View.VISIBLE
+
         recyclerHome = view.findViewById(R.id.recyclerHome)
         layoutManager = LinearLayoutManager(activity)
+
+        /*searchView = view.findViewById(R.id.searchView) as SearchView?
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener() {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (restaurantInfoList!!.contains(query)) {
+                     recyclerAdapter.
+                } else {
+                    Toast.makeText(activity as Context, "No Match found", Toast.LENGTH_LONG).show()
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                //    adapter.getFilter().filter(newText);
+                return false
+            }
+        })*/
+
 
         val queue = Volley.newRequestQueue(activity as Context)
         val url = "http://13.235.250.119/v2/restaurants/fetch_result/"
@@ -81,6 +98,8 @@ class HomeFragment : Fragment() {
                 object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
 
                     try {
+
+                        progressLayout.visibility = View.GONE
 
                         val data = it.getJSONObject("data")
                         val success = data.getBoolean("success")
@@ -154,12 +173,12 @@ class HomeFragment : Fragment() {
             restaurantInfoList.reverse()
         }
 
-        if(id == R.id.action_sort_cost){
+        if (id == R.id.action_sort_cost) {
             Collections.sort(restaurantInfoList, ratingComparator1)
             restaurantInfoList
         }
 
-        if(id == R.id.action_sort_cost_desc){
+        if (id == R.id.action_sort_cost_desc) {
             Collections.sort(restaurantInfoList, ratingComparator1)
             restaurantInfoList.reverse()
         }

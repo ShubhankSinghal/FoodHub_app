@@ -3,8 +3,10 @@ package com.shubhank.foodhub_app.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
@@ -21,6 +23,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
     lateinit var forgotPasswordMobileNumber: EditText
     lateinit var forgotPasswordEmail: EditText
     lateinit var forgotPasswordButton: Button
+    lateinit var forgotPasswordBack: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +32,15 @@ class ForgotPasswordActivity : AppCompatActivity() {
         forgotPasswordMobileNumber = findViewById(R.id.forgotPasswordMobileNumber)
         forgotPasswordEmail = findViewById(R.id.forgotPasswordEmail)
         forgotPasswordButton = findViewById(R.id.forgotPasswordButton)
+        forgotPasswordBack = findViewById(R.id.forgotPasswordBack)
+
+        forgotPasswordBack.setOnClickListener {
+            finish()
+        }
 
         forgotPasswordButton.setOnClickListener {
+
+            forgotPasswordButton.visibility = View.INVISIBLE
 
             if (forgotPasswordMobileNumber.text.isNullOrEmpty() || forgotPasswordEmail.text.isNullOrEmpty()) {
                 Toast.makeText(
@@ -38,12 +48,14 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     "Fill the details First!",
                     Toast.LENGTH_SHORT
                 ).show()
+                forgotPasswordButton.visibility = View.VISIBLE
             } else if (forgotPasswordMobileNumber.text.length != 10) {
                 Toast.makeText(
                     this@ForgotPasswordActivity,
                     "Enter Valid Mobile Number",
                     Toast.LENGTH_SHORT
                 ).show()
+                forgotPasswordButton.visibility = View.VISIBLE
             } else {
 
                 val queue = Volley.newRequestQueue(this@ForgotPasswordActivity)
@@ -98,6 +110,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                                 msg,
                                                 Toast.LENGTH_SHORT
                                             ).show()
+                                            forgotPasswordButton.visibility = View.VISIBLE
                                         }
 
                                     } catch (e: JSONException) {
@@ -106,6 +119,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                             "Some unexpected error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
+                                        forgotPasswordButton.visibility = View.VISIBLE
                                     }
                                 },
                                 Response.ErrorListener {
@@ -115,6 +129,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                         "Volley error occurred",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    forgotPasswordButton.visibility = View.VISIBLE
                                 }) {
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
@@ -124,6 +139,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
                             }
                         }
                     queue.add(jsonObjectRequest)
+                } else {
+                    forgotPasswordButton.visibility = View.VISIBLE
                 }
             }
         }

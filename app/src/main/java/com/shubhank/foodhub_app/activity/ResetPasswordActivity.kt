@@ -3,8 +3,10 @@ package com.shubhank.foodhub_app.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
@@ -21,6 +23,7 @@ class ResetPasswordActivity : AppCompatActivity() {
     lateinit var otpNewPassword: EditText
     lateinit var otpConfirmNewPassword: EditText
     lateinit var otpButton: Button
+    lateinit var otpBack: ImageView
 
     var mobile_number: String? = "100"
 
@@ -28,6 +31,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp)
 
+        otpBack = findViewById(R.id.otpBack)
         otpOtp = findViewById(R.id.otpOTP)
         otpNewPassword = findViewById(R.id.otpNewPassword)
         otpConfirmNewPassword = findViewById(R.id.otpConfirmNewPassword)
@@ -44,7 +48,13 @@ class ResetPasswordActivity : AppCompatActivity() {
             ).show()
         }
 
+        otpBack.setOnClickListener {
+            finish()
+        }
+
         otpButton.setOnClickListener {
+
+            otpButton.visibility = View.INVISIBLE
 
             if (otpNewPassword.text.isNullOrEmpty() || otpConfirmNewPassword.text.isNullOrEmpty() || otpOtp.text.isNullOrEmpty()) {
 
@@ -53,6 +63,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                     "Fields are empty!",
                     Toast.LENGTH_SHORT
                 ).show()
+                otpButton.visibility = View.VISIBLE
 
             } else if (otpNewPassword.text.length <= 5) {
 
@@ -61,6 +72,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                     "Password Length must be greater than 5",
                     Toast.LENGTH_SHORT
                 ).show()
+                otpButton.visibility = View.VISIBLE
 
             } else if (otpNewPassword.text.toString() != otpConfirmNewPassword.text.toString()) {
 
@@ -69,6 +81,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                     "Password Mismatched",
                     Toast.LENGTH_SHORT
                 ).show()
+                otpButton.visibility = View.VISIBLE
 
             } else {
 
@@ -108,6 +121,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                                                 msg,
                                                 Toast.LENGTH_SHORT
                                             ).show()
+                                            otpButton.visibility = View.VISIBLE
                                         }
 
                                     } catch (e: JSONException) {
@@ -117,6 +131,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                                             "Some unexpected error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
+                                        otpButton.visibility = View.VISIBLE
                                     }
                                 },
                                 Response.ErrorListener {
@@ -126,6 +141,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                                         "Volley error occurred",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    otpButton.visibility = View.VISIBLE
                                 }) {
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
@@ -135,6 +151,8 @@ class ResetPasswordActivity : AppCompatActivity() {
                             }
                         }
                     queue.add(jsonObjectRequest)
+                } else {
+                    otpButton.visibility = View.VISIBLE
                 }
             }
         }

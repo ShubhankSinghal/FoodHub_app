@@ -3,6 +3,7 @@ package com.shubhank.foodhub_app.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -46,30 +47,37 @@ class RegistrationActivity : AppCompatActivity() {
 
         registerBtn.setOnClickListener {
 
+            registerBtn.visibility = View.INVISIBLE
+
             if (registerName.text.isNullOrEmpty()) {
                 Toast.makeText(this@RegistrationActivity, "Name is missing!", Toast.LENGTH_SHORT)
                     .show()
+                registerBtn.visibility = View.VISIBLE
             } else if (registerEmail.text.isNullOrEmpty()) {
                 Toast.makeText(this@RegistrationActivity, "Email is missing!", Toast.LENGTH_SHORT)
                     .show()
+                registerBtn.visibility = View.VISIBLE
             } else if (registerMobileNumber.text.isNullOrEmpty()) {
                 Toast.makeText(
                     this@RegistrationActivity,
                     "Mobile Number is missing!",
                     Toast.LENGTH_SHORT
                 ).show()
+                registerBtn.visibility = View.VISIBLE
             } else if (registerMobileNumber.text.length != 10) {
                 Toast.makeText(
                     this@RegistrationActivity,
                     "Invalid Mobile Number",
                     Toast.LENGTH_SHORT
                 ).show()
+                registerBtn.visibility = View.VISIBLE
             } else if (registerDeliveryAddress.text.isNullOrEmpty()) {
                 Toast.makeText(
                     this@RegistrationActivity,
                     "Delivery Address is missing!",
                     Toast.LENGTH_SHORT
                 ).show()
+                registerBtn.visibility = View.VISIBLE
             } else if (registerPassword.text.isNullOrEmpty() || registerConfirmPassword.text.isNullOrEmpty()) {
                 Toast.makeText(
                         this@RegistrationActivity,
@@ -77,15 +85,18 @@ class RegistrationActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     )
                     .show()
+                registerBtn.visibility = View.VISIBLE
             } else if (registerPassword.text.length <= 5) {
                 Toast.makeText(
                     this@RegistrationActivity,
                     "Password length must be greater than 5",
                     Toast.LENGTH_SHORT
                 ).show()
+                registerBtn.visibility = View.VISIBLE
             } else if (registerPassword.text.toString() != registerConfirmPassword.text.toString()) {
                 Toast.makeText(this@RegistrationActivity, "Password Mismatched", Toast.LENGTH_SHORT)
                     .show()
+                registerBtn.visibility = View.VISIBLE
             } else {
 
                 val queue = Volley.newRequestQueue(this@RegistrationActivity)
@@ -131,6 +142,7 @@ class RegistrationActivity : AppCompatActivity() {
                                                 msg,
                                                 Toast.LENGTH_SHORT
                                             ).show()
+                                            registerBtn.visibility = View.VISIBLE
                                         }
 
                                     } catch (e: JSONException) {
@@ -139,6 +151,7 @@ class RegistrationActivity : AppCompatActivity() {
                                             "Some unexpected error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
+                                        registerBtn.visibility = View.VISIBLE
                                     }
                                 },
                                 Response.ErrorListener {
@@ -148,6 +161,7 @@ class RegistrationActivity : AppCompatActivity() {
                                         "Volley error occurred",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    registerBtn.visibility = View.VISIBLE
                                 }) {
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
@@ -157,6 +171,8 @@ class RegistrationActivity : AppCompatActivity() {
                             }
                         }
                     queue.add(jsonObjectRequest)
+                } else {
+                    registerBtn.visibility = View.VISIBLE
                 }
             }
         }

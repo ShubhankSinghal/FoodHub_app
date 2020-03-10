@@ -10,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +38,8 @@ class CartActivity : AppCompatActivity() {
     lateinit var recyclerCart: RecyclerView
     lateinit var recyclerAdapter: CartRecyclerAdapter
     lateinit var layoutManager: RecyclerView.LayoutManager
+    lateinit var progressLayout: RelativeLayout
+    lateinit var progressBar: ProgressBar
     lateinit var cartBack: ImageView
     lateinit var cartButton: Button
     lateinit var toolbar: Toolbar
@@ -59,6 +58,11 @@ class CartActivity : AppCompatActivity() {
         cartButton = findViewById(R.id.cartButton)
         cartBack = findViewById(R.id.cartBack)
         recyclerCart = findViewById(R.id.recyclerCart)
+
+        progressLayout = findViewById(R.id.progressLayout)
+        progressBar = findViewById(R.id.progressBar)
+        progressLayout.visibility = View.GONE
+
         layoutManager = LinearLayoutManager(this@CartActivity)
 
         dbOrderList = RetrieveOrders(this@CartActivity).execute().get()
@@ -108,6 +112,7 @@ class CartActivity : AppCompatActivity() {
 
         cartButton.setOnClickListener {
 
+            progressLayout.visibility = View.VISIBLE
             val queue = Volley.newRequestQueue(this@CartActivity)
             val url = "http://13.235.250.119/v2/place_order/fetch_result/"
             val jsonParams = JSONObject()
@@ -129,6 +134,8 @@ class CartActivity : AppCompatActivity() {
                         JsonObjectRequest(Request.Method.POST, url, jsonParams, Response.Listener {
 
                             try {
+                                progressLayout.visibility = View.GONE
+
                                 val data = it.getJSONObject("data")
                                 val success = data.getBoolean("success")
                                 if (success) {

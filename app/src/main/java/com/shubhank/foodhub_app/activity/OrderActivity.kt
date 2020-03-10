@@ -56,10 +56,16 @@ class OrderActivity : AppCompatActivity() {
     lateinit var orderToolbarName: TextView
     lateinit var orderProceedButton: Button
     lateinit var orderEntity: OrderEntity
+    lateinit var progressLayout: RelativeLayout
+    lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
+
+        progressLayout = findViewById(R.id.progressLayout)
+        progressBar = findViewById(R.id.progressBar)
+        progressLayout.visibility = View.VISIBLE
 
         orderProceedButton = findViewById(R.id.orderProceedButton)
         orderProceedButton.visibility = View.GONE
@@ -118,6 +124,8 @@ class OrderActivity : AppCompatActivity() {
                 object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
 
                     try {
+                        progressLayout.visibility = View.GONE
+
                         val data = it.getJSONObject("data")
                         val success = data.getBoolean("success")
                         if (success) {

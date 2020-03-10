@@ -9,16 +9,24 @@
     android:theme="@style/AppTheme"
     tools:context=".activity.ForgotPasswordActivity">
 
+    <ImageView
+        android:id="@+id/otpBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_back" />
+
     <TextView
         android:id="@+id/otpText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="8dp"
+        android:padding="5dp"
         android:text="@string/enter_the_received_otp_below"
         android:textAlignment="center"
         android:textColor="#FFF"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/otpOTP"
@@ -61,7 +69,7 @@
         android:layout_marginTop="25dp"
         android:background="#B12C14"
         android:padding="8dp"
-        android:text="@string/next"
+        android:text="@string/Submit"
         android:textAlignment="center"
         android:textColor="#FFF" />
 
