@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#FF6347"
     android:padding="15dp"
-    android:theme="@style/AppTheme1"
+    android:theme="@style/AppTheme"
     tools:context=".activity.completionActivity">
 
     <ImageView

@@ -348,6 +348,7 @@ class OrderActivity : AppCompatActivity() {
                 if (DeleteOrders(this@OrderActivity).execute().get()) {
                     val intent = Intent(this@OrderActivity, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                     CartRecyclerAdapter.price = 0
                 }
             }
@@ -359,6 +360,7 @@ class OrderActivity : AppCompatActivity() {
         } else {
             val intent = Intent(this@OrderActivity, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
