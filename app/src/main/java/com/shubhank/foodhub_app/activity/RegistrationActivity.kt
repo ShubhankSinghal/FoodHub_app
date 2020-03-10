@@ -1,13 +1,16 @@
 package com.shubhank.foodhub_app.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -173,6 +176,22 @@ class RegistrationActivity : AppCompatActivity() {
                     queue.add(jsonObjectRequest)
                 } else {
                     registerBtn.visibility = View.VISIBLE
+                    val dialog = AlertDialog.Builder(this@RegistrationActivity)
+                    dialog.setTitle("Error")
+                    dialog.setMessage("Internet Connection Not Found")
+                    dialog.setPositiveButton("Open Settings") { _, _ ->
+
+                        val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                        startActivity(settingsIntent)
+                        finishAffinity()
+
+                    }
+                    dialog.setNegativeButton("Exit") { _, _ ->
+                        ActivityCompat.finishAffinity((this@RegistrationActivity))
+                    }
+                    dialog.setCancelable(false)
+                    dialog.create()
+                    dialog.show()
                 }
             }
         }

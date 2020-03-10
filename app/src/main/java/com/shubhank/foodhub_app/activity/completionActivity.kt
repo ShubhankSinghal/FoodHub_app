@@ -19,6 +19,7 @@ class completionActivity : AppCompatActivity() {
 
         orderCompletionButton.setOnClickListener {
             val intent = Intent(this@completionActivity, MainActivity::class.java)
+            finishAffinity()
             startActivity(intent)
         }
 

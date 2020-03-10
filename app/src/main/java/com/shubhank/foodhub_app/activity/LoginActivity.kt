@@ -5,11 +5,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -83,6 +86,14 @@ class LoginActivity : AppCompatActivity() {
 
             } else if (mobileNumber.length != 10) {
                 Toast.makeText(this@LoginActivity, "Enter valid Mobile Number!", Toast.LENGTH_SHORT)
+                    .show()
+                loginButton.visibility = View.VISIBLE
+                loginForgotPassword.visibility = View.VISIBLE
+                loginRegister.visibility = View.VISIBLE
+
+            } else if (password.length <= 5) {
+
+                Toast.makeText(this@LoginActivity, "Enter valid Password!", Toast.LENGTH_SHORT)
                     .show()
                 loginButton.visibility = View.VISIBLE
                 loginForgotPassword.visibility = View.VISIBLE
@@ -179,6 +190,23 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
                     queue.add(jsonObjectRequest)
+                } else {
+                    val dialog = AlertDialog.Builder(this@LoginActivity)
+                    dialog.setTitle("Error")
+                    dialog.setMessage("Internet Connection Not Found")
+                    dialog.setPositiveButton("Open Settings") { _ , _ ->
+
+                        val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
+                        startActivity(settingsIntent)
+                        finishAffinity()
+
+                    }
+                    dialog.setNegativeButton("Exit") { _ , _ ->
+                        ActivityCompat.finishAffinity((this@LoginActivity))
+                    }
+                    dialog.setCancelable(false)
+                    dialog.create()
+                    dialog.show()
                 }
             }
         }

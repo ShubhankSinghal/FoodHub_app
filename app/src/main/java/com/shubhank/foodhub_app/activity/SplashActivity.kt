@@ -21,17 +21,6 @@ class SplashActivity : AppCompatActivity() {
 
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
-        /*
-       if (!this.isTaskRoot
-            && intent.hasCategory(Intent.CATEGORY_LAUNCHER)
-            && intent.action != null
-            && intent.action.equals(Intent.ACTION_MAIN)) {
-
-            finish();
-            return;
-        }
-        */
-
         Handler().postDelayed({
 
             if (isLoggedIn) {

@@ -299,12 +299,13 @@ class OrderActivity : AppCompatActivity() {
 
                 val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
                 startActivity(settingsIntent)
-                finish()
+                finishAffinity()
 
             }
             dialog.setNegativeButton("Exit") { _, _ ->
                 ActivityCompat.finishAffinity((this@OrderActivity))
             }
+            dialog.setCancelable(false)
             dialog.create()
             dialog.show()
         }
