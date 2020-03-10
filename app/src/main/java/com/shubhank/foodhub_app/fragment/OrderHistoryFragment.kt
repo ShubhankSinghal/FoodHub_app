@@ -104,12 +104,6 @@ class OrderHistoryFragment : Fragment() {
                                     recyclerOrderHistory.adapter = recyclerAdapter
                                     recyclerOrderHistory.layoutManager = layoutManager
 
-                                    recyclerOrderHistory.addItemDecoration(
-                                        DividerItemDecoration(
-                                            recyclerOrderHistory.context,
-                                            (layoutManager as LinearLayoutManager).orientation
-                                        )
-                                    )
                                 }
                             } else {
                                 noOrder.visibility = View.VISIBLE

@@ -74,20 +74,13 @@ class OrderRecyclerAdapter(
             listener.onAddItemClick(food)
             val async = DBAsyncTask(context, orderEntity, 1).execute().get()
             CartRecyclerAdapter.price += food.orderPrice.toInt()
-            if (async) {
-                Toast.makeText(
-                    context,
-                    "Added to Cart",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
+            if (!async) {
                 Toast.makeText(
                     context,
                     "Some Error Occurred",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
         }
 
         holder.orderButton1.setOnClickListener {
@@ -97,23 +90,15 @@ class OrderRecyclerAdapter(
             listener.onRemoveItemClick(food)
             val async = DBAsyncTask(context, orderEntity, 2).execute().get()
             CartRecyclerAdapter.price -= food.orderPrice.toInt()
-            if (async) {
-                Toast.makeText(
-                    context,
-                    "Removed from Cart",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
+            if (!async) {
                 Toast.makeText(
                     context,
                     "Some Error Occurred",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
         }
     }
-
 }
 
 
@@ -154,5 +139,4 @@ class DBAsyncTask(
         }
         return false
     }
-
 }

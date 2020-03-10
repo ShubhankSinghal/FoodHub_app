@@ -93,12 +93,6 @@ class HomeRecyclerAdapter(val context: Context, private val itemList: ArrayList<
                 val result = async.get()
 
                 if (result) {
-                    Toast.makeText(
-                        context,
-                        "Restaurant added to Favorites",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
                     holder.imgFavorite.setImageResource(R.drawable.ic_rating2)
                 } else {
                     Toast.makeText(
@@ -118,12 +112,6 @@ class HomeRecyclerAdapter(val context: Context, private val itemList: ArrayList<
                 val result = async.get()
 
                 if (result) {
-                    Toast.makeText(
-                        context,
-                        "Restaurant removed from Favorites",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
                     holder.imgFavorite.setImageResource(R.drawable.ic_rating1)
                 } else {
                     Toast.makeText(

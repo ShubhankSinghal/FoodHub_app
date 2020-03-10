@@ -201,12 +201,6 @@ class OrderActivity : AppCompatActivity() {
                                     val result = async.get()
 
                                     if (result) {
-                                        Toast.makeText(
-                                            this@OrderActivity,
-                                            "Restaurant added to Favorites",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-
                                         imgOrderFavorite.setImageResource(R.drawable.ic_rating2)
                                     } else {
                                         Toast.makeText(
@@ -226,12 +220,6 @@ class OrderActivity : AppCompatActivity() {
                                     val result = async.get()
 
                                     if (result) {
-                                        Toast.makeText(
-                                            this@OrderActivity,
-                                            "Restaurant removed from Favorites",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-
                                         imgOrderFavorite.setImageResource(R.drawable.ic_rating1)
                                     } else {
                                         Toast.makeText(
