@@ -10,7 +10,7 @@ import com.shubhank.foodhub_app.R
 
 class SplashActivity : AppCompatActivity() {
 
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

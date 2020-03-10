@@ -35,12 +35,11 @@ class HomeFragment : Fragment() {
     lateinit var recyclerHome: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var progressLayout: RelativeLayout
-    lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ProgressBar
     val restaurantInfoList = arrayListOf<Restaurant>()
     lateinit var recyclerAdapter: HomeRecyclerAdapter
-    var searchView: SearchView? = null
 
-    var ratingComparator = Comparator<Restaurant> { res1, res2 ->
+    private var ratingComparator = Comparator<Restaurant> { res1, res2 ->
 
         if (res1.restaurantRating.compareTo(res2.restaurantRating, true) == 0) {
             res1.restaurantName.compareTo(res2.restaurantName, true)
@@ -50,7 +49,7 @@ class HomeFragment : Fragment() {
 
     }
 
-    var ratingComparator1 = Comparator<Restaurant> { res1, res2 ->
+    private var ratingComparator1 = Comparator<Restaurant> { res1, res2 ->
 
         if (res1.restaurantPrice.compareTo(res2.restaurantPrice, true) == 0) {
             res1.restaurantName.compareTo(res2.restaurantName, true)
@@ -76,31 +75,13 @@ class HomeFragment : Fragment() {
         recyclerHome = view.findViewById(R.id.recyclerHome)
         layoutManager = LinearLayoutManager(activity)
 
-        /*searchView = view.findViewById(R.id.searchView) as SearchView?
-        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener() {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                if (restaurantInfoList!!.contains(query)) {
-                     recyclerAdapter.
-                } else {
-                    Toast.makeText(activity as Context, "No Match found", Toast.LENGTH_LONG).show()
-                }
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                //    adapter.getFilter().filter(newText);
-                return false
-            }
-        })*/
-
-
         val queue = Volley.newRequestQueue(activity as Context)
         val url = "http://13.235.250.119/v2/restaurants/fetch_result/"
 
         if (ConnectionManager().checkConnectivity(activity as Context)) {
 
             val jsonObjectRequest =
-                object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
+                object : JsonObjectRequest(Method.GET, url, null, Response.Listener {
 
                     try {
 
@@ -131,14 +112,14 @@ class HomeFragment : Fragment() {
                         } else {
                             Toast.makeText(
                                 activity as Context,
-                                "Some Error has Occurred",
+                                "Some Unexpected Error has Occurred",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     } catch (e: JSONException) {
                         Toast.makeText(
                             activity as Context,
-                            "Some unexpected error occurred!!!",
+                            "JSON error occurred!!!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -165,14 +146,14 @@ class HomeFragment : Fragment() {
             val dialog = AlertDialog.Builder(activity as Context)
             dialog.setTitle("Error")
             dialog.setMessage("Internet Connection Not Found")
-            dialog.setPositiveButton("Open Settings") { _ , _ ->
+            dialog.setPositiveButton("Open Settings") { _, _ ->
 
                 val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
                 startActivity(settingsIntent)
                 activity?.finish()
 
             }
-            dialog.setNegativeButton("Exit") { _ , _ ->
+            dialog.setNegativeButton("Exit") { _, _ ->
                 ActivityCompat.finishAffinity((activity as Activity))
             }
             dialog.setCancelable(false)
@@ -183,12 +164,12 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater?.inflate(R.menu.menu_home, menu)
+        inflater.inflate(R.menu.menu_home, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        val id = item?.itemId
+        val id = item.itemId
 
         if (id == R.id.action_sort_rating) {
             Collections.sort(restaurantInfoList, ratingComparator)

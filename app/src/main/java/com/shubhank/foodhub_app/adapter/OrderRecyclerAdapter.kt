@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.shubhank.foodhub_app.R
-import com.shubhank.foodhub_app.database.FoodDatabase
-import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.database.OrderDatabase
 import com.shubhank.foodhub_app.database.OrderEntity
 import com.shubhank.foodhub_app.model.Food
@@ -19,8 +16,8 @@ import com.shubhank.foodhub_app.model.Food
 
 class OrderRecyclerAdapter(
     val context: Context,
-    val itemList: ArrayList<Food>,
-    val listener: OnItemClickListener
+    private val itemList: ArrayList<Food>,
+    private val listener: OnItemClickListener
 ) :
     RecyclerView.Adapter<OrderRecyclerAdapter.OrderViewHolder>() {
 
@@ -57,7 +54,7 @@ class OrderRecyclerAdapter(
         holder.textFoodPrice.text = food.orderPrice
 
         val orderEntity = OrderEntity(
-            food.orderId?.toInt() as Int,
+            food.orderId.toInt(),
             food.orderName,
             food.orderPrice
         )
@@ -120,10 +117,14 @@ class OrderRecyclerAdapter(
 }
 
 
-class DBAsyncTask(val context: Context, val orderEntity: OrderEntity, val mode: Int) :
+class DBAsyncTask(
+    val context: Context,
+    private val orderEntity: OrderEntity,
+    private val mode: Int
+) :
     AsyncTask<Void, Void, Boolean>() {
 
-    val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
+    private val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
 
     override fun doInBackground(vararg params: Void?): Boolean {
 

@@ -1,7 +1,9 @@
 package com.shubhank.foodhub_app.activity
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -22,19 +24,22 @@ import org.json.JSONObject
 
 class RegistrationActivity : AppCompatActivity() {
 
-    lateinit var registerBack: ImageView
-    lateinit var registerName: EditText
-    lateinit var registerEmail: EditText
-    lateinit var registerMobileNumber: EditText
-    lateinit var registerDeliveryAddress: EditText
-    lateinit var registerPassword: EditText
-    lateinit var registerConfirmPassword: EditText
+    private lateinit var registerBack: ImageView
+    private lateinit var registerName: EditText
+    private lateinit var registerEmail: EditText
+    private lateinit var registerMobileNumber: EditText
+    private lateinit var registerDeliveryAddress: EditText
+    private lateinit var registerPassword: EditText
+    private lateinit var registerConfirmPassword: EditText
     lateinit var registerBtn: Button
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
+        sharedPreferences =
+            getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE)
         registerBack = findViewById(R.id.registerBack)
         registerName = findViewById(R.id.registerName)
         registerEmail = findViewById(R.id.registerEmail)
@@ -125,8 +130,28 @@ class RegistrationActivity : AppCompatActivity() {
 
                                         val data = it.getJSONObject("data")
                                         val success = data.getBoolean("success")
-
                                         if (success) {
+                                            val data1 = data.getJSONObject("data")
+                                            sharedPreferences.edit().putBoolean("isLoggedIn", true)
+                                                .apply()
+                                            sharedPreferences.edit()
+                                                .putString("res_id", data1.getString("user_id"))
+                                                .apply()
+                                            sharedPreferences.edit()
+                                                .putString("res_name", data1.getString("name"))
+                                                .apply()
+                                            sharedPreferences.edit()
+                                                .putString("res_email", data1.getString("email"))
+                                                .apply()
+                                            sharedPreferences.edit().putString(
+                                                "res_number",
+                                                data1.getString("mobile_number")
+                                            ).apply()
+                                            sharedPreferences.edit().putString(
+                                                "res_address",
+                                                data1.getString("address")
+                                            ).apply()
+
                                             Toast.makeText(
                                                 this@RegistrationActivity,
                                                 "Registered Successfully",
@@ -151,7 +176,7 @@ class RegistrationActivity : AppCompatActivity() {
                                     } catch (e: JSONException) {
                                         Toast.makeText(
                                             this@RegistrationActivity,
-                                            "Some unexpected error occurred!!!",
+                                            "JSON error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         registerBtn.visibility = View.VISIBLE

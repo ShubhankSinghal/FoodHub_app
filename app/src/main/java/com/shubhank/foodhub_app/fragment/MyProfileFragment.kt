@@ -6,21 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.shubhank.foodhub_app.R
 
-
-/**
- * A simple [Fragment] subclass.
- */
 class MyProfileFragment : Fragment() {
 
-    lateinit var profileName: TextView
-    lateinit var profileNumber: TextView
-    lateinit var profileEmail: TextView
-    lateinit var profileAddress: TextView
+    private lateinit var profileName: TextView
+    private lateinit var profileNumber: TextView
+    private lateinit var profileEmail: TextView
+    private lateinit var profileAddress: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

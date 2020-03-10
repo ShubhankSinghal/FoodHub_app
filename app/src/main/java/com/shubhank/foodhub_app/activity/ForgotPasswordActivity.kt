@@ -24,9 +24,9 @@ import org.json.JSONObject
 class ForgotPasswordActivity : AppCompatActivity() {
 
     lateinit var forgotPasswordMobileNumber: EditText
-    lateinit var forgotPasswordEmail: EditText
+    private lateinit var forgotPasswordEmail: EditText
     lateinit var forgotPasswordButton: Button
-    lateinit var forgotPasswordBack: ImageView
+    private lateinit var forgotPasswordBack: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,11 +91,10 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                                 "mobile_number",
                                                 forgotPasswordMobileNumber.text.toString()
                                             )
-                                            startActivity(intent)
                                             if (data.getBoolean("first_try")) {
                                                 Toast.makeText(
                                                     this@ForgotPasswordActivity,
-                                                    "OTP has sent to the registered Email",
+                                                    "OTP has been sent to the registered Email",
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             } else {
@@ -105,6 +104,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
+                                            startActivity(intent)
 
                                         } else {
                                             val msg = data.getString("errorMessage")
@@ -119,7 +119,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
                                     } catch (e: JSONException) {
                                         Toast.makeText(
                                             this@ForgotPasswordActivity,
-                                            "Some unexpected error occurred!!!",
+                                            "JSON error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         forgotPasswordButton.visibility = View.VISIBLE

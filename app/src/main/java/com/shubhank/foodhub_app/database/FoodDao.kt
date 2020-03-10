@@ -4,9 +4,6 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.shubhank.foodhub_app.model.Restaurant
-import java.sql.RowId
-
 
 @Dao
 interface FoodDao {

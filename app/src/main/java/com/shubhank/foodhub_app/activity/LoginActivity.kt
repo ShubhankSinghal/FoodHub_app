@@ -27,8 +27,8 @@ import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var loginMobileNumber: EditText
-    lateinit var loginPassword: EditText
+    private lateinit var loginMobileNumber: EditText
+    private lateinit var loginPassword: EditText
     lateinit var loginButton: Button
     lateinit var loginForgotPassword: TextView
     lateinit var loginRegister: TextView
@@ -147,7 +147,7 @@ class LoginActivity : AppCompatActivity() {
                                             startActivity(intent)
                                             finishAffinity()
                                         } else {
-                                            var msg: String? = data.getString("errorMessage")
+                                            val msg: String? = data.getString("errorMessage")
                                             Toast.makeText(
                                                 this@LoginActivity,
                                                 msg,
@@ -162,7 +162,7 @@ class LoginActivity : AppCompatActivity() {
 
                                         Toast.makeText(
                                             this@LoginActivity,
-                                            "Some JSON related error occurred!!!",
+                                            "JSON error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         loginButton.visibility = View.VISIBLE
@@ -194,14 +194,14 @@ class LoginActivity : AppCompatActivity() {
                     val dialog = AlertDialog.Builder(this@LoginActivity)
                     dialog.setTitle("Error")
                     dialog.setMessage("Internet Connection Not Found")
-                    dialog.setPositiveButton("Open Settings") { _ , _ ->
+                    dialog.setPositiveButton("Open Settings") { _, _ ->
 
                         val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
                         startActivity(settingsIntent)
                         finishAffinity()
 
                     }
-                    dialog.setNegativeButton("Exit") { _ , _ ->
+                    dialog.setNegativeButton("Exit") { _, _ ->
                         ActivityCompat.finishAffinity((this@LoginActivity))
                     }
                     dialog.setCancelable(false)

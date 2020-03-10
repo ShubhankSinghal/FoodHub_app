@@ -23,14 +23,14 @@ import kotlinx.android.synthetic.main.drawer_header.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var drawerLayout: DrawerLayout
-    lateinit var coordinatorLayout: CoordinatorLayout
-    lateinit var toolbar: Toolbar
-    lateinit var frameLayout: FrameLayout
-    lateinit var navigationView: NavigationView
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var toolbar: Toolbar
+    private lateinit var frameLayout: FrameLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var sharedPreferences: SharedPreferences
 
-    var previousMenuItem: MenuItem? = null
+    private var previousMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setUpToolbar() {
+    private fun setUpToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Toolbar Title"
         supportActionBar?.setHomeButtonEnabled(true)
@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun openDashboard() {
+    private fun openDashboard() {
         val fragment = HomeFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame, fragment)
@@ -160,9 +160,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val frag = supportFragmentManager.findFragmentById(R.id.frame)
 
-        when (frag) {
+        when (supportFragmentManager.findFragmentById(R.id.frame)) {
             !is HomeFragment -> openDashboard()
             else -> super.onBackPressed()
         }

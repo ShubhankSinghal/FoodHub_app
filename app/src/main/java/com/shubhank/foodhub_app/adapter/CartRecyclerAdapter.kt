@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.database.OrderEntity
 
-class CartRecyclerAdapter(val context: Context, val orderList: List<OrderEntity>) :
+class CartRecyclerAdapter(val context: Context, private val orderList: List<OrderEntity>) :
     RecyclerView.Adapter<CartRecyclerAdapter.CartViewHolder>() {
 
     companion object {

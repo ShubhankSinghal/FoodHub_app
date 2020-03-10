@@ -92,8 +92,8 @@
         android:background="#FFF"
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="5dp"
-        android:hint="@string/password"
-        android:inputType="textPassword"
+        android:hint="@string/password1"
+        android:inputType="numberPassword"
         android:padding="8dp" />
 
     <EditText
@@ -106,7 +106,7 @@
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="5dp"
         android:hint="@string/confirm_password"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
         android:padding="8dp" />
 
     <Button
@@ -121,6 +121,5 @@
         android:textColor="#FFF"
         android:textSize="18sp"
         android:textStyle="bold" />
-
 
 </RelativeLayout>

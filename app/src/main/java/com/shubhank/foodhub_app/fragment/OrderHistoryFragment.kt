@@ -12,13 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -26,7 +26,6 @@ import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.adapter.OrderHistoryRecyclerAdapterParent
 import com.shubhank.foodhub_app.model.History
 import com.shubhank.foodhub_app.util.ConnectionManager
-import kotlinx.android.synthetic.main.activity_order.*
 import org.json.JSONException
 
 
@@ -37,7 +36,9 @@ class OrderHistoryFragment : Fragment() {
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var recyclerAdapter: OrderHistoryRecyclerAdapterParent
     lateinit var progressLayout: RelativeLayout
-    lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ProgressBar
+    lateinit var noOrder: RelativeLayout
+    lateinit var noOrderText: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +50,10 @@ class OrderHistoryFragment : Fragment() {
         progressLayout = view.findViewById(R.id.progressLayout)
         progressBar = view.findViewById(R.id.progressBar)
         progressLayout.visibility = View.VISIBLE
+
+        noOrder = view.findViewById(R.id.noOrder)
+        noOrderText = view.findViewById(R.id.noOrderText)
+        noOrder.visibility = View.VISIBLE
 
         recyclerOrderHistory = view.findViewById(R.id.recyclerOrderHistory)
         layoutManager = LinearLayoutManager(activity)
@@ -66,7 +71,7 @@ class OrderHistoryFragment : Fragment() {
         if (ConnectionManager().checkConnectivity(activity as Context)) {
 
             val jsonObjectRequest =
-                object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
+                object : JsonObjectRequest(Method.GET, url, null, Response.Listener {
 
                     try {
 
@@ -78,44 +83,48 @@ class OrderHistoryFragment : Fragment() {
                         if (success) {
                             val data1 = data.getJSONArray("data")
 
-                            for (i in 0 until data1.length()) {
-                                val historyJsonObject = data1.getJSONObject((i))
-                                val historyObject = History(
-                                    historyJsonObject.getString("order_id"),
-                                    historyJsonObject.getString("restaurant_name"),
-                                    historyJsonObject.getString("total_cost"),
-                                    historyJsonObject.getString("order_placed_at"),
-                                    historyJsonObject.getJSONArray("food_items")
-                                )
-                                historyInfoList.add(historyObject)
-                                recyclerAdapter =
-                                    OrderHistoryRecyclerAdapterParent(
-                                        activity as Context,
-                                        historyInfoList
+                            if (data1.length() != 0) {
+                                noOrder.visibility = View.GONE
+                                for (i in 0 until data1.length()) {
+                                    val historyJsonObject = data1.getJSONObject((i))
+                                    val historyObject = History(
+                                        historyJsonObject.getString("order_id"),
+                                        historyJsonObject.getString("restaurant_name"),
+                                        historyJsonObject.getString("total_cost"),
+                                        historyJsonObject.getString("order_placed_at"),
+                                        historyJsonObject.getJSONArray("food_items")
                                     )
+                                    historyInfoList.add(historyObject)
+                                    recyclerAdapter =
+                                        OrderHistoryRecyclerAdapterParent(
+                                            activity as Context,
+                                            historyInfoList
+                                        )
 
-                                recyclerOrderHistory.adapter = recyclerAdapter
-                                recyclerOrderHistory.layoutManager = layoutManager
+                                    recyclerOrderHistory.adapter = recyclerAdapter
+                                    recyclerOrderHistory.layoutManager = layoutManager
 
-                                recyclerOrderHistory.addItemDecoration(
-                                    DividerItemDecoration(
-                                        recyclerOrderHistory.context,
-                                        (layoutManager as LinearLayoutManager).orientation
+                                    recyclerOrderHistory.addItemDecoration(
+                                        DividerItemDecoration(
+                                            recyclerOrderHistory.context,
+                                            (layoutManager as LinearLayoutManager).orientation
+                                        )
                                     )
-                                )
-
+                                }
+                            } else {
+                                noOrder.visibility = View.VISIBLE
                             }
                         } else {
                             Toast.makeText(
                                 activity as Context,
-                                "Some Error has Occurred",
+                                "Some Unexpected Error has Occurred",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     } catch (e: JSONException) {
                         Toast.makeText(
                             activity as Context,
-                            "Some unexpected error occurred!!!",
+                            "JSON error occurred!!!",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -142,14 +151,16 @@ class OrderHistoryFragment : Fragment() {
             val dialog = AlertDialog.Builder(activity as Context)
             dialog.setTitle("Error")
             dialog.setMessage("Internet Connection Not Found")
-            dialog.setPositiveButton("Open Settings") { _, _ ->
+            dialog.setPositiveButton("Open Settings")
+            { _, _ ->
 
                 val settingsIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
                 startActivity(settingsIntent)
                 activity?.finish()
 
             }
-            dialog.setNegativeButton("Exit") { _, _ ->
+            dialog.setNegativeButton("Exit")
+            { _, _ ->
                 ActivityCompat.finishAffinity((activity as Activity))
             }
             dialog.setCancelable(false)

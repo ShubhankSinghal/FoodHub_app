@@ -9,9 +9,6 @@ import android.view.ViewGroup
 
 import com.shubhank.foodhub_app.R
 
-/**
- * A simple [Fragment] subclass.
- */
 class FAQsFragment : Fragment() {
 
     override fun onCreateView(
@@ -21,6 +18,4 @@ class FAQsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_faqs, container, false)
     }
-
-
 }

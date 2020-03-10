@@ -75,7 +75,7 @@
         android:text="@string/u_don_t_have_an_account_sign_up_now_u"
         android:textAlignment="center"
         android:textColor="#FFF"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

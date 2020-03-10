@@ -21,7 +21,7 @@
     <string name="new_password_min_4_characters">New Password (Min. 4 characters)</string>
     <string name="name_of_the_restaurant">Name of the Restaurant</string>
     <string name="question1">Q.1 I entered the wrong CVV, why did my transaction still go through?</string>
-    <string name="answer1">A.1 The logic of validation of CVV resides wit either payment gateways or banks. It is absolutely the choice of banks to have CVV as a mandatory input field or not. As per RBI guidelines, 2-Factor-Authentication is not mandatory for less than Rs.2000 transaction. It is not in control of the owner of the App. As an organisation, we don\'t store any card information.</string>
+    <string name="answer1">A.1 The logic of validation of CVV resides with either payment gateways or banks. It is absolutely the choice of banks to have CVV as a mandatory input field or not. As per RBI guidelines, 2-Factor-Authentication is not mandatory for less than Rs.2000 transaction. It is not in control of the owner of the App. As an organisation, we don\'t store any card information.</string>
     <string name="question2">Q.2 Is there a minimum order value?</string>
     <string name="answer2">A.2 We have no minimum order value and you can order for any amount.</string>
     <string name="question3">Q.3 Is single order from many restaurants possible?</string>
@@ -41,4 +41,5 @@
     <string name="close_drawer">Close Drawer</string>
     <string name="food_hub"><u>Food Hub</u></string>
     <string name="Submit">Submit</string>
+    <string name="password1">Password (Min. 5 characters)</string>
 </resources>

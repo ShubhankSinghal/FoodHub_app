@@ -8,9 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.model.Food
-import com.shubhank.foodhub_app.model.History
 
-class OrderHistoryRecyclerAdapterChild(val context: Context, val itemList: ArrayList<Food>) :
+class OrderHistoryRecyclerAdapterChild(
+    val context: Context,
+    private val itemList: ArrayList<Food>
+) :
     RecyclerView.Adapter<OrderHistoryRecyclerAdapterChild.OrderHistoryViewHolder>() {
 
     class OrderHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {

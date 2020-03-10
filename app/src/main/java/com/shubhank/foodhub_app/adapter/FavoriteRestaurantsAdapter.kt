@@ -20,7 +20,7 @@ import com.shubhank.foodhub_app.database.FoodEntity
 import com.squareup.picasso.Picasso
 
 
-class FavoriteRestaurantsAdapter(val context: Context, val itemList: List<FoodEntity>) :
+class FavoriteRestaurantsAdapter(val context: Context, private val itemList: List<FoodEntity>) :
     RecyclerView.Adapter<FavoriteRestaurantsAdapter.HomeViewHolder>() {
 
     class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -153,41 +153,6 @@ class FavoriteRestaurantsAdapter(val context: Context, val itemList: List<FoodEn
             intent.putExtra("image", restaurant.restaurantImage)
             context.startActivity(intent)
             (context as Activity).finish()
-        }
-    }
-
-    class DBAsyncTask(val context: Context, val foodEntity: FoodEntity, val mode: Int) :
-        AsyncTask<Void, Void, Boolean>() {
-
-        val db = Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
-
-        override fun doInBackground(vararg params: Void?): Boolean {
-
-            when (mode) {
-
-                1 -> {
-                    //Check DB if the restaurant is favorite or not
-                    val res: FoodEntity? =
-                        db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
-                    db.close()
-                    return res != null
-                }
-
-                2 -> {
-                    //Save the restaurant into DB as favorite
-                    db.FoodDao().insertRestaurant(foodEntity)
-                    db.close()
-                    return true
-                }
-
-                3 -> {
-                    //Remove the favorite restaurant
-                    db.FoodDao().deleteRestaurant(foodEntity)
-                    db.close()
-                    return true
-                }
-            }
-            return false
         }
     }
 }

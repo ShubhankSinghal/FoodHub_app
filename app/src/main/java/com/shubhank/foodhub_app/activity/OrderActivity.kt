@@ -1,7 +1,6 @@
 package com.shubhank.foodhub_app.activity
 
 import android.app.AlertDialog
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
@@ -12,52 +11,41 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.adapter.CartRecyclerAdapter
-import com.shubhank.foodhub_app.adapter.HomeRecyclerAdapter
 import com.shubhank.foodhub_app.adapter.OrderRecyclerAdapter
 import com.shubhank.foodhub_app.database.FoodDatabase
 import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.database.OrderDatabase
-import com.shubhank.foodhub_app.database.OrderEntity
 import com.shubhank.foodhub_app.model.Food
-import com.shubhank.foodhub_app.model.Restaurant
 import com.shubhank.foodhub_app.util.ConnectionManager
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.recycler_home_single_row.*
-import kotlinx.android.synthetic.main.recycler_order_single_row.view.*
-import org.json.JSONObject
 
 class OrderActivity : AppCompatActivity() {
 
     lateinit var recyclerOrder: RecyclerView
     lateinit var recyclerAdapter: OrderRecyclerAdapter
     lateinit var layoutManager: RecyclerView.LayoutManager
-    lateinit var orderBack: ImageView
+    private lateinit var orderBack: ImageView
     lateinit var imgOrderFavorite: ImageView
     val foodInfoList = arrayListOf<Food>()
     var orderList = arrayListOf<Food>()
-    lateinit var toolbar: Toolbar
+    private lateinit var toolbar: Toolbar
     var restaurantId: String? = "100"
     var x: Int = 0
     lateinit var restaurantName: String
     lateinit var restaurantRating: String
     lateinit var restaurantPrice: String
     lateinit var restaurantImage: String
-    lateinit var orderToolbarName: TextView
+    private lateinit var orderToolbarName: TextView
     lateinit var orderProceedButton: Button
-    lateinit var orderEntity: OrderEntity
     lateinit var progressLayout: RelativeLayout
-    lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,14 +102,13 @@ class OrderActivity : AppCompatActivity() {
             ).show()
         }
 
-        var count = 1
         val queue = Volley.newRequestQueue(this@OrderActivity)
         val url = "http://13.235.250.119/v2/restaurants/fetch_result/$restaurantId"
 
         if (ConnectionManager().checkConnectivity(this@OrderActivity)) {
 
             val jsonRequest =
-                object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
+                object : JsonObjectRequest(Method.GET, url, null, Response.Listener {
 
                     try {
                         progressLayout.visibility = View.GONE
@@ -259,7 +246,7 @@ class OrderActivity : AppCompatActivity() {
                         } else {
                             Toast.makeText(
                                 this@OrderActivity,
-                                "Some Error has Occurred",
+                                "Some Unexpected Error has Occurred",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -268,7 +255,7 @@ class OrderActivity : AppCompatActivity() {
 
                         Toast.makeText(
                             this@OrderActivity,
-                            "Some Error has Occurred",
+                            "JSON Error Occurred",
                             Toast.LENGTH_SHORT
                         ).show()
 
@@ -312,7 +299,11 @@ class OrderActivity : AppCompatActivity() {
     }
 
 
-    class DBAsyncTask(val context: Context, val foodEntity: FoodEntity, val mode: Int) :
+    class DBAsyncTask(
+        val context: Context,
+        private val foodEntity: FoodEntity,
+        private val mode: Int
+    ) :
         AsyncTask<Void, Void, Boolean>() {
 
         val db = Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
@@ -324,21 +315,21 @@ class OrderActivity : AppCompatActivity() {
                 1 -> {
                     //Check DB if the restaurant is favorite or not
                     val book: FoodEntity? =
-                        db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
+                        db.foodDao().getRestaurantById(foodEntity.restaurant_id.toString())
                     db.close()
                     return book != null
                 }
 
                 2 -> {
                     //Save the restaurant into DB as favorite
-                    db.FoodDao().insertRestaurant(foodEntity)
+                    db.foodDao().insertRestaurant(foodEntity)
                     db.close()
                     return true
                 }
 
                 3 -> {
                     //Remove the favorite restaurant
-                    db.FoodDao().deleteRestaurant(foodEntity)
+                    db.foodDao().deleteRestaurant(foodEntity)
                     db.close()
                     return true
                 }
@@ -370,55 +361,6 @@ class OrderActivity : AppCompatActivity() {
             val intent = Intent(this@OrderActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }
-    }
-
-    /*
-    class RetrieveCountOrders(val context: Context) : AsyncTask<Void, Void, Boolean>() {
-
-        override fun doInBackground(vararg params: Void?): Boolean {
-            val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
-
-            val order: Int = db.orderDao().getCountOrders()
-            db.close()
-            return order != 0
-        }
-
-    }
-*/
-    class DBAsyncTaskA(val context: Context, val orderEntity: OrderEntity, val mode: Int) :
-        AsyncTask<Void, Void, Boolean>() {
-
-        val db = Room.databaseBuilder(context, OrderDatabase::class.java, "orders-db").build()
-
-        override fun doInBackground(vararg params: Void?): Boolean {
-
-            when (mode) {
-
-                1 -> {
-                    //Check DB if the orders is favorite or not
-                    val order: OrderEntity? =
-                        db.orderDao().getOrderById(orderEntity.order_id.toString())
-                    db.close()
-                    return order != null
-                }
-
-                2 -> {
-                    //Save the restaurant into DB as favorite
-                    db.orderDao().insertOrder(orderEntity)
-                    db.close()
-                    return true
-                }
-
-                3 -> {
-                    //Remove the favorite restaurant
-                    db.orderDao().deleteOrder(orderEntity)
-                    db.close()
-                    return true
-                }
-
-            }
-            return false
         }
     }
 

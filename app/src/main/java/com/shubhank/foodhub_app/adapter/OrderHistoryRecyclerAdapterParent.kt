@@ -11,7 +11,10 @@ import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.model.History
 
-class OrderHistoryRecyclerAdapterParent(val context: Context, val itemList: ArrayList<History>) :
+class OrderHistoryRecyclerAdapterParent(
+    val context: Context,
+    private val itemList: ArrayList<History>
+) :
     RecyclerView.Adapter<OrderHistoryRecyclerAdapterParent.OrderHistoryViewHolder>() {
 
     class OrderHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -54,8 +57,8 @@ class OrderHistoryRecyclerAdapterParent(val context: Context, val itemList: Arra
             )
         }
         val cartItemAdapter = OrderHistoryRecyclerAdapterChild(context, orderList)
-        val LayoutManager = LinearLayoutManager(context)
-        recyclerOrderHistory.layoutManager = LayoutManager
+        val layoutManager = LinearLayoutManager(context)
+        recyclerOrderHistory.layoutManager = layoutManager
         recyclerOrderHistory.adapter = cartItemAdapter
     }
 

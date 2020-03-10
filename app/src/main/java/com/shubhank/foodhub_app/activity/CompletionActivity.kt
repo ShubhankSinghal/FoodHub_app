@@ -4,24 +4,23 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import com.shubhank.foodhub_app.R
-import kotlinx.android.synthetic.main.activity_order_completion.*
 
-class completionActivity : AppCompatActivity() {
+class CompletionActivity : AppCompatActivity() {
 
-    lateinit var orderCompletionButton: Button
+    private lateinit var orderCompletion: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_completion)
 
-        orderCompletionButton = findViewById(R.id.orderCompletionButton)
+        orderCompletion = findViewById(R.id.orderCompletion)
 
-        orderCompletionButton.setOnClickListener {
-            val intent = Intent(this@completionActivity, MainActivity::class.java)
+        orderCompletion.setOnClickListener {
+            val intent = Intent(this@CompletionActivity, MainActivity::class.java)
             finishAffinity()
             startActivity(intent)
         }
-
     }
 }

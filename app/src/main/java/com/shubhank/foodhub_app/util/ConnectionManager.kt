@@ -12,10 +12,10 @@ class ConnectionManager {
 
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
 
-        if (activeNetwork?.isConnected != null) {
-            return activeNetwork.isConnected
+        return if (activeNetwork?.isConnected != null) {
+            activeNetwork.isConnected
         } else {
-            return false
+            false
         }
     }
 }

@@ -7,5 +7,5 @@ import androidx.room.RoomDatabase
 @Database(entities = [FoodEntity::class], version = 1)
 abstract class FoodDatabase : RoomDatabase() {
 
-    abstract fun FoodDao(): FoodDao
+    abstract fun foodDao(): FoodDao
 }

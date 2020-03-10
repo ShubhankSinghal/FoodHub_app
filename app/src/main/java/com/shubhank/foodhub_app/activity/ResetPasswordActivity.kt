@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -22,13 +21,13 @@ import org.json.JSONObject
 
 class ResetPasswordActivity : AppCompatActivity() {
 
-    lateinit var otpOtp: EditText
-    lateinit var otpNewPassword: EditText
-    lateinit var otpConfirmNewPassword: EditText
+    private lateinit var otpOtp: EditText
+    private lateinit var otpNewPassword: EditText
+    private lateinit var otpConfirmNewPassword: EditText
     lateinit var otpButton: Button
-    lateinit var otpBack: ImageView
+    private lateinit var otpBack: ImageView
 
-    var mobile_number: String? = "100"
+    private var mobilenumber: String? = "100"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +40,7 @@ class ResetPasswordActivity : AppCompatActivity() {
         otpButton = findViewById(R.id.otpButton)
 
         if (intent != null) {
-            mobile_number = intent.getStringExtra("mobile_number")
+            mobilenumber = intent.getStringExtra("mobile_number")
         } else {
             finish()
             Toast.makeText(
@@ -91,7 +90,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                 val queue = Volley.newRequestQueue(this@ResetPasswordActivity)
                 val url = "http://13.235.250.119/v2/reset_password/fetch_result"
                 val jsonParams = JSONObject()
-                jsonParams.put("mobile_number", mobile_number)
+                jsonParams.put("mobile_number", mobilenumber)
                 jsonParams.put("password", otpNewPassword.text.toString())
                 jsonParams.put("otp", otpOtp.text.toString())
 
@@ -131,7 +130,7 @@ class ResetPasswordActivity : AppCompatActivity() {
 
                                         Toast.makeText(
                                             this@ResetPasswordActivity,
-                                            "Some unexpected error occurred!!!",
+                                            "JSON error occurred!!!",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         otpButton.visibility = View.VISIBLE

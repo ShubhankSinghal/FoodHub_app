@@ -6,20 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".fragment.HomeFragment">
 
-    <SearchView
+    <!--<SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="#FFF"
         android:iconifiedByDefault="false"
-        android:queryHint="Search Here" />
+        android:queryHint="Search Here" /> -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchView"
         android:padding="8dp" />
 
     <RelativeLayout
@@ -33,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
-
 
     </RelativeLayout>
 

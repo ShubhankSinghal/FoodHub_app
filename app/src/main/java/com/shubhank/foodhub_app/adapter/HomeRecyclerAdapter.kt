@@ -21,7 +21,7 @@ import com.shubhank.foodhub_app.model.Restaurant
 import com.squareup.picasso.Picasso
 
 
-class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaurant>) :
+class HomeRecyclerAdapter(val context: Context, private val itemList: ArrayList<Restaurant>) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
 
     class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -55,7 +55,7 @@ class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaura
             .into(holder.imgRestaurantImage)
 
         val resEntity = FoodEntity(
-            restaurant.restaurantId?.toInt() as Int,
+            restaurant.restaurantId.toInt(),
             restaurant.restaurantName,
             restaurant.restaurantPrice,
             restaurant.restaurantRating,
@@ -158,10 +158,15 @@ class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaura
         }
     }
 
-    class DBAsyncTask(val context: Context, val foodEntity: FoodEntity, val mode: Int) :
+    class DBAsyncTask(
+        val context: Context,
+        private val foodEntity: FoodEntity,
+        private val mode: Int
+    ) :
         AsyncTask<Void, Void, Boolean>() {
 
-        val db = Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
+        private val db =
+            Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
 
         override fun doInBackground(vararg params: Void?): Boolean {
 
@@ -170,21 +175,21 @@ class HomeRecyclerAdapter(val context: Context, val itemList: ArrayList<Restaura
                 1 -> {
                     //Check DB if the restaurant is favorite or not
                     val res: FoodEntity? =
-                        db.FoodDao().getRestaurantById(foodEntity.restaurant_id.toString())
+                        db.foodDao().getRestaurantById(foodEntity.restaurant_id.toString())
                     db.close()
                     return res != null
                 }
 
                 2 -> {
                     //Save the restaurant into DB as favorite
-                    db.FoodDao().insertRestaurant(foodEntity)
+                    db.foodDao().insertRestaurant(foodEntity)
                     db.close()
                     return true
                 }
 
                 3 -> {
                     //Remove the favorite Restaurant
-                    db.FoodDao().deleteRestaurant(foodEntity)
+                    db.foodDao().deleteRestaurant(foodEntity)
                     db.close()
                     return true
                 }

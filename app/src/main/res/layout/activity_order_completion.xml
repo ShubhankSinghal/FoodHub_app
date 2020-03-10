@@ -6,31 +6,33 @@
     android:background="#FF6347"
     android:padding="15dp"
     android:theme="@style/AppTheme"
-    tools:context=".activity.completionActivity">
+    tools:context=".activity.CompletionActivity">
 
     <ImageView
         android:id="@+id/imgConfirm"
         android:layout_width="141dp"
         android:layout_height="171dp"
+        android:layout_above="@id/txtConfirm"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
         android:src="@drawable/ic_confirm" />
 
     <TextView
+        android:id="@+id/txtConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imgConfirm"
+        android:layout_centerInParent="true"
         android:text="Your order has been successfully placed!"
         android:textAlignment="center"
         android:textColor="#FFF"
         android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/orderCompletionButton"
+    <TextView
+        android:id="@+id/orderCompletion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
         android:background="#FF6347"
         android:padding="20dp"
         android:text="Ok"

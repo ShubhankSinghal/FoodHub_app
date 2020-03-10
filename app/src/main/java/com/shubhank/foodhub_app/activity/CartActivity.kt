@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.media.Image
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,34 +19,29 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.google.gson.JsonArray
 import com.shubhank.foodhub_app.R
 import com.shubhank.foodhub_app.adapter.CartRecyclerAdapter
-import com.shubhank.foodhub_app.adapter.OrderRecyclerAdapter
-import com.shubhank.foodhub_app.database.FoodEntity
 import com.shubhank.foodhub_app.database.OrderDatabase
 import com.shubhank.foodhub_app.database.OrderEntity
-import com.shubhank.foodhub_app.model.Food
 import com.shubhank.foodhub_app.util.ConnectionManager
-import kotlinx.android.synthetic.main.activity_cart.*
 import org.json.JSONArray
 import org.json.JSONObject
 
 class CartActivity : AppCompatActivity() {
 
-    lateinit var recyclerCart: RecyclerView
-    lateinit var recyclerAdapter: CartRecyclerAdapter
-    lateinit var layoutManager: RecyclerView.LayoutManager
+    private lateinit var recyclerCart: RecyclerView
+    private lateinit var recyclerAdapter: CartRecyclerAdapter
+    private lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var progressLayout: RelativeLayout
-    lateinit var progressBar: ProgressBar
-    lateinit var cartBack: ImageView
-    lateinit var cartButton: Button
-    lateinit var toolbar: Toolbar
-    var restaurantId: String? = "100"
-    lateinit var restaurantName: String
-    var dbOrderList = listOf<OrderEntity>()
-    lateinit var cartRestaurantName: TextView
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var progressBar: ProgressBar
+    private lateinit var cartBack: ImageView
+    private lateinit var cartButton: Button
+    private lateinit var toolbar: Toolbar
+    private var restaurantId: String? = "100"
+    private lateinit var restaurantName: String
+    private var dbOrderList = listOf<OrderEntity>()
+    private lateinit var cartRestaurantName: TextView
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,11 +58,11 @@ class CartActivity : AppCompatActivity() {
         progressLayout.visibility = View.GONE
 
         layoutManager = LinearLayoutManager(this@CartActivity)
-
         dbOrderList = RetrieveOrders(this@CartActivity).execute().get()
         recyclerAdapter = CartRecyclerAdapter(this@CartActivity, dbOrderList)
         recyclerCart.adapter = recyclerAdapter
         recyclerCart.layoutManager = layoutManager
+
         cartButton.text = "Place Order(Total: Rs.${CartRecyclerAdapter.price.toString()})"
 
         toolbar = findViewById(R.id.toolbar)
@@ -119,9 +113,9 @@ class CartActivity : AppCompatActivity() {
             jsonParams.put("user_id", userId)
             jsonParams.put("restaurant_id", restaurantId.toString())
             jsonParams.put("total_cost", totalCost.toString())
-            var arrayOrder = JSONArray()
+            val arrayOrder = JSONArray()
             for (element in dbOrderList) {
-                var jsonOrder = JSONObject()
+                val jsonOrder = JSONObject()
                 jsonOrder.put("food_item_id", element.order_id.toString())
                 arrayOrder.put(jsonOrder)
             }
@@ -131,7 +125,7 @@ class CartActivity : AppCompatActivity() {
 
                 val jsonRequest =
                     object :
-                        JsonObjectRequest(Request.Method.POST, url, jsonParams, Response.Listener {
+                        JsonObjectRequest(Method.POST, url, jsonParams, Response.Listener {
 
                             try {
                                 progressLayout.visibility = View.GONE
@@ -141,21 +135,19 @@ class CartActivity : AppCompatActivity() {
                                 if (success) {
 
                                     val intent =
-                                        Intent(this@CartActivity, completionActivity::class.java)
+                                        Intent(this@CartActivity, CompletionActivity::class.java)
                                     startActivity(intent)
                                     DeleteOrders(this@CartActivity).execute().get()
                                     CartRecyclerAdapter.price = 0
                                 }
 
-
                             } catch (e: Exception) {
 
                                 Toast.makeText(
                                     this@CartActivity,
-                                    "Some Error has Occurred",
+                                    "JSON error Occurred",
                                     Toast.LENGTH_SHORT
                                 ).show()
-
                             }
 
                         }, Response.ErrorListener {
@@ -198,9 +190,7 @@ class CartActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-
         finish()
-
     }
 
     class RetrieveOrders(val context: Context) : AsyncTask<Void, Void, List<OrderEntity>>() {
