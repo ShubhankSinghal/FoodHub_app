@@ -49,11 +49,9 @@ class OrderHistoryFragment : Fragment() {
 
         progressLayout = view.findViewById(R.id.progressLayout)
         progressBar = view.findViewById(R.id.progressBar)
-        progressLayout.visibility = View.VISIBLE
-
         noOrder = view.findViewById(R.id.noOrder)
         noOrderText = view.findViewById(R.id.noOrderText)
-        noOrder.visibility = View.VISIBLE
+        progressLayout.visibility = View.VISIBLE
 
         recyclerOrderHistory = view.findViewById(R.id.recyclerOrderHistory)
         layoutManager = LinearLayoutManager(activity)
@@ -84,7 +82,6 @@ class OrderHistoryFragment : Fragment() {
                             val data1 = data.getJSONArray("data")
 
                             if (data1.length() != 0) {
-                                noOrder.visibility = View.GONE
                                 for (i in 0 until data1.length()) {
                                     val historyJsonObject = data1.getJSONObject((i))
                                     val historyObject = History(

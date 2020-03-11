@@ -38,7 +38,8 @@
         android:id="@+id/noOrder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff">
+        android:background="#fff"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/noOrderText"
