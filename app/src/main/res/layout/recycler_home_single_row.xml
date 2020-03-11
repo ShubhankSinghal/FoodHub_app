@@ -30,13 +30,14 @@
             android:id="@+id/l3Content"
             android:layout_width="0dp"
             android:layout_height="135dp"
-            android:layout_weight="2.5">
+            android:layout_weight="2.5"
+            android:paddingTop="5dp">
 
             <TextView
                 android:id="@+id/txtRestaurantName"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:padding="10dp"
                 android:text="@string/name_of_the_restaurant"
                 android:textColor="#000000"

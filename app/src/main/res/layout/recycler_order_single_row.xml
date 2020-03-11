@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="100dp"
     android:layout_margin="2dp"
     android:background="#ffffff"
     android:padding="8dp"
@@ -37,30 +37,22 @@
                 android:id="@+id/orderRestaurantOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="6dp"
                 android:padding="8dp"
                 android:text="Mexican Baco"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/orderPriceSign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/orderRestaurantOrder"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
-                android:text="Rs."
-                android:textColor="#A9A9A9"
-                android:textSize="15sp" />
-
-            <TextView
                 android:id="@+id/orderPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/orderRestaurantOrder"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/orderPriceSign"
-                android:text="100"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:padding="8dp"
+                android:text="Rs. 200"
                 android:textColor="#A9A9A9"
                 android:textSize="15sp" />
 

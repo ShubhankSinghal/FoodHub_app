@@ -51,7 +51,7 @@ class OrderRecyclerAdapter(
         val food = itemList[position]
         holder.textFoodIndex.text = (position + 1).toString()
         holder.textFoodName.text = food.orderName
-        holder.textFoodPrice.text = food.orderPrice
+        holder.textFoodPrice.text = "Rs. ${food.orderPrice}"
 
         val orderEntity = OrderEntity(
             food.orderId.toInt(),

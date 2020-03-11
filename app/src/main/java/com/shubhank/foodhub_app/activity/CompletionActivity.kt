@@ -9,7 +9,7 @@ import com.shubhank.foodhub_app.R
 
 class CompletionActivity : AppCompatActivity() {
 
-    private lateinit var orderCompletion: TextView
+    private lateinit var orderCompletion: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

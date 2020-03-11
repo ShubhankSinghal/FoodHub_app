@@ -26,17 +26,17 @@
         android:textColor="#FFF"
         android:textSize="18sp" />
 
-    <TextView
+    <Button
         android:id="@+id/orderCompletion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"
-        android:background="#FF6347"
-        android:padding="20dp"
+        android:background="#FFC7BD"
+        android:paddingHorizontal="40dp"
         android:text="Ok"
-        android:textColor="#FFF"
+        android:textColor="#FF6347"
         android:textSize="18sp" />
 
 </RelativeLayout>
