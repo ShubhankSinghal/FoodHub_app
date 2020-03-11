@@ -55,8 +55,8 @@ class FavoriteRestaurantsAdapter(val context: Context, private val itemList: Lis
         val resEntity = FoodEntity(
             restaurant.restaurant_id,
             restaurant.restaurantName,
-            restaurant.restaurantPrice,
             restaurant.restaurantRating,
+            restaurant.restaurantPrice,
             restaurant.restaurantImage
         )
 

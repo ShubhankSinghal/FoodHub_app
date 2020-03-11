@@ -57,8 +57,8 @@ class HomeRecyclerAdapter(val context: Context, private val itemList: ArrayList<
         val resEntity = FoodEntity(
             restaurant.restaurantId.toInt(),
             restaurant.restaurantName,
-            restaurant.restaurantPrice,
             restaurant.restaurantRating,
+            restaurant.restaurantPrice,
             restaurant.restaurantImage
         )
 

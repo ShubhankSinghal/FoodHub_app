@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FoodHub_app</string>
+    <string name="app_name">FoodHub</string>
     <string name="preference_file_name">FoodApp Preferences</string>
 
     <!-- TODO: Remove or change this placeholder text -->
