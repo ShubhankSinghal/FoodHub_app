@@ -4,9 +4,12 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.room.Room
 import com.shubhank.foodhub_app.R
+import com.shubhank.foodhub_app.database.FoodDatabase
 
 class LogoutActivity : AppCompatActivity() {
 
@@ -23,10 +26,12 @@ class LogoutActivity : AppCompatActivity() {
         dialog.setMessage("Are you sure you want to log out?")
         dialog.setPositiveButton("Yes") { _, _ ->
 
-            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
-            val intent = Intent(this@LogoutActivity, LoginActivity::class.java)
-            finishAffinity()
-            startActivity(intent)
+            if (DeleteFavorites(this@LogoutActivity).execute().get()) {
+                sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
+                val intent = Intent(this@LogoutActivity, LoginActivity::class.java)
+                finishAffinity()
+                startActivity(intent)
+            }
         }
         dialog.setNegativeButton("No") { _, _ ->
 
@@ -36,6 +41,17 @@ class LogoutActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.create()
         dialog.show()
+    }
 
+    class DeleteFavorites(val context: Context) : AsyncTask<Void, Void, Boolean>() {
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+            val db =
+                Room.databaseBuilder(context, FoodDatabase::class.java, "restaurants-db").build()
+
+            db.foodDao().deleteAll()
+            db.close()
+            return true
+        }
     }
 }

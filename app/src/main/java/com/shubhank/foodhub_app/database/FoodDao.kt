@@ -20,4 +20,7 @@ interface FoodDao {
     @Query("SELECT * FROM restaurants WHERE restaurant_id = :restaurantId")
     fun getRestaurantById(restaurantId: String): FoodEntity
 
+    @Query("DELETE FROM restaurants")
+    fun deleteAll()
+
 }
