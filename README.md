@@ -5,6 +5,7 @@ This is a android app development project that was to be made for that training 
 
 ## Inspiration
 This project is a part of Internshala App-a-thon competition.
+
 Requirements: https://drive.google.com/file/d/1B5P9y8MEvi8hZ_FXYKtrBclYPrtrCk_K/view?usp=sharing
 
 ## What it does
